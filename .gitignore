@@ -58,4 +58,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+<<<<<<< HEAD
 UserSettings/*
+=======
+UserSettings/*
+>>>>>>> 5e73430e4709769b83b0d434088475cd9fb6fc38
