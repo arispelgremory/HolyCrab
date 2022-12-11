@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -153,7 +153,7 @@ PrefabInstance:
     - target: {fileID: 3443190119473844988, guid: fb10691c82b528a48904ff0dc8feee6f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.3819523
+      value: 3.173
       objectReference: {fileID: 0}
     - target: {fileID: 3443190119473844988, guid: fb10691c82b528a48904ff0dc8feee6f,
         type: 3}
@@ -378,7 +378,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356991159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6225904, y: 4.9831467, z: -10.68188}
+  m_LocalPosition: {x: 1.6225904, y: 5.7741947, z: -10.68188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -452,6 +452,32 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1535548766 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3443190119473352386, guid: fb10691c82b528a48904ff0dc8feee6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 930352112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1535548768
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535548766}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1c72cebbdba53ee4cb0754d2e07e5655, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1788878530
 GameObject:
   m_ObjectHideFlags: 3

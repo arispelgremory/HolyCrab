@@ -46,7 +46,8 @@ public class CrabPlayerController : MonoBehaviour
             speed = 7;
             anim.SetBool("IsForward", true);
             transform.Translate(x, 0, z++);
-        }else if(Input.GetKeyUp(KeyCode.UpArrow){
+        }else if(Input.GetKeyUp(KeyCode.UpArrow))
+        {
             speed = 0;
             anim.SetBool("IsForward", false);
         }
@@ -56,7 +57,7 @@ public class CrabPlayerController : MonoBehaviour
         {
             speed = 7;
             anim.SetBool("IsForward", true);
-        }else if(Input.GetKeyUp(KeyCode.DownArrow){
+        }else if(Input.GetKeyUp(KeyCode.DownArrow)){
             speed = 0;
             anim.SetBool("IsForward", false);
         }
