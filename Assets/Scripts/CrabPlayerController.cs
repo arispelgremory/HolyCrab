@@ -23,59 +23,68 @@ public class CrabPlayerController : MonoBehaviour
 
 
         // Check if the up or down button is press or not
-        if(Input.GetAxis("Vertical") != 0)
+        if (Input.GetAxis("Vertical") != 0)
         {
             anim.SetBool("IsForward", true);
-        }else{
+        }
+        else
+        {
             anim.SetBool("IsForward", false);
         }
 
         // TO-DO: Movement Direction
-        if(Input.GetAxis("Horizontal") != 0)
+        if (Input.GetAxis("Horizontal") != 0)
         {
             speed = 7;
             anim.SetBool("IsLeft", true);
-        }else{
+        }
+        else
+        {
             speed = 0;
             anim.SetBool("IsLeft", false);
         }
 
         //  Go Forward
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             speed = 7;
             anim.SetBool("IsForward", true);
             transform.Translate(x, 0, z++);
-        }else{
+        }
+        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
             speed = 0;
             anim.SetBool("IsForward", false);
         }
 
         //  Go Backward
-        if(Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             speed = 7;
             anim.SetBool("IsForward", true);
-        }else{
+        }
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
             speed = 0;
             anim.SetBool("IsForward", false);
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             speed = 7;
             anim.SetBool("IsRunning", true);
-        } 
+        }
 
-        if(Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             anim.SetBool("IsRunning", false);
-        } 
-        if(Input.GetButtonDown("Fire1"))
+        }
+
+        if (Input.GetButtonDown("Fire1"))
         {
             anim.SetTrigger("IsAttack");
-        } 
+        }
 
         transform.Translate(x, 0, z);
-        }
+    }
 }
