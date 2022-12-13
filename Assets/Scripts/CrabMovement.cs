@@ -22,14 +22,26 @@ public class CrabMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        if (Input.GetButtonDown("Fire1"))
+        {
+            anim.SetTrigger("IsAttack");
+        } else if (Input.GetButtonDown("Fire2"))
+        {
+            anim.SetTrigger("IsHeavyAttack");
+        }
+        
         // Movement
         if (rb.velocity.z > 0)
         {
             anim.SetBool("IsForward", true);
+            anim.SetBool("IsRight", false);
+            anim.SetBool("IsLeft", false);
             Debug.Log("Moving Forward");
         } else if (rb.velocity.z < 0)
         {
             anim.SetBool("IsBackward", true);
+            anim.SetBool("IsRight", false);
+            anim.SetBool("IsLeft", false);
             Debug.Log("Moving Backwards");
         } else if (rb.velocity.x > 0)
         {
