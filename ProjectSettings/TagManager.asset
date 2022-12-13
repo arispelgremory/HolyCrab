@@ -9,6 +9,7 @@ TagManager:
   - pickuppoint
   - waypoint
   - stealingpoint
+  - Spawn
   layers:
   - Default
   - TransparentFX
