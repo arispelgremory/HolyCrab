@@ -71,7 +71,7 @@ public class CrabMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isDodging)
         {
             isDodging = true;
-            anim.SetBool("IsDodging", true);
+            anim.SetTrigger("IsDodging");
             Debug.Log("Dodge");
         }
     }
@@ -87,7 +87,7 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(transform.forward * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                anim.SetTrigger("IsDodging");
             }
         }
         else if (Input.GetAxis("Vertical") < 0)
@@ -98,7 +98,7 @@ public class CrabMovement : MonoBehaviour
             {  
                 
                 rb.AddForce(-transform.forward * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                anim.SetTrigger("IsDodging");
             }
         }
 
@@ -110,7 +110,7 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(transform.right * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                anim.SetTrigger("IsDodging");
             }
         } else if (Input.GetAxis("Horizontal") < 0)
         {
@@ -119,7 +119,7 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(-transform.right * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                anim.SetTrigger("IsDodging");
             }
         }
         
@@ -127,10 +127,9 @@ public class CrabMovement : MonoBehaviour
         if (isDodging && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
             rb.AddForce(0, 0, 1 * (speed * 2), ForceMode.Impulse);
-            anim.SetBool("IsDodging", true);
+            anim.SetTrigger("IsDodging");
         }
-
+        
         isDodging = false;
-        anim.SetBool("IsDodging", false);
     }
 }
