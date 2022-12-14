@@ -295,7 +295,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012139121}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 7.83, y: 0, z: 0}
 --- !u!114 &1103564021
 MonoBehaviour:
@@ -464,7 +464,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 15.834, y: 0, z: 0}
 --- !u!114 &1502673353
 MonoBehaviour:
@@ -592,7 +592,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1707888195
 MonoBehaviour:
@@ -626,10 +626,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrabMonsterDefault
       objectReference: {fileID: 0}
-    - target: {fileID: 3443190119473844988, guid: fb10691c82b528a48904ff0dc8feee6f,
+    - target: {fileID: 3443190119473844962, guid: fb10691c82b528a48904ff0dc8feee6f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443190119473844972, guid: fb10691c82b528a48904ff0dc8feee6f,
         type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443190119473844988, guid: fb10691c82b528a48904ff0dc8feee6f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3443190119473844988, guid: fb10691c82b528a48904ff0dc8feee6f,
         type: 3}
@@ -701,7 +711,7 @@ GameObject:
   - component: {fileID: 2004540769}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -764,7 +774,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2079862412
 PrefabInstance:

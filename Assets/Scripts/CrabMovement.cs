@@ -12,7 +12,7 @@ public class CrabMovement : MonoBehaviour
     private Rigidbody rb;
     private Animator anim;
     
-    bool isDodging = false;
+    private bool isDodging = false;
     
     // Start is called before the first frame update
     void Start()
@@ -31,28 +31,28 @@ public class CrabMovement : MonoBehaviour
         {
             anim.SetTrigger("IsHeavyAttack");
         }
-        
+
         // Movement
         if (rb.velocity.z > 0)
         {
             anim.SetBool("IsForward", true);
             anim.SetBool("IsRight", false);
             anim.SetBool("IsLeft", false);
-            Debug.Log("Moving Forward");
+            // Debug.Log("Moving Forward");
         } else if (rb.velocity.z < 0)
         {
             anim.SetBool("IsBackward", true);
             anim.SetBool("IsRight", false);
             anim.SetBool("IsLeft", false);
-            Debug.Log("Moving Backwards");
+            // Debug.Log("Moving Backwards");
         } else if (rb.velocity.x > 0)
         {
             anim.SetBool("IsRight", true);
-            Debug.Log("Moving Right");
+            // Debug.Log("Moving Right");
         } else if (rb.velocity.x < 0)
         {
             anim.SetBool("IsLeft", true);
-            Debug.Log("Moving Left");
+            // Debug.Log("Moving Left");
         }
         else
         {
@@ -60,16 +60,18 @@ public class CrabMovement : MonoBehaviour
             anim.SetBool("IsBackward", false);
             anim.SetBool("IsRight", false);
             anim.SetBool("IsLeft", false);
-            Debug.Log("Not Moving");
+            // Debug.Log("Not Moving");
         }
         
         // TODO: fix slow at start fast at end
         
-        // TODO: fix shift not working
+        // Can dodge while jumping?
         // Dodge
-        if (Input.GetKeyDown("Shift") && !isDodging)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDodging)
         {
             isDodging = true;
+            anim.SetBool("IsDodging", true);
+            Debug.Log("Dodge");
         }
     }
 
@@ -84,7 +86,7 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(transform.forward * (speed * 2), ForceMode.Impulse);
-                isDodging = false;
+                anim.SetBool("IsDodging", true);
             }
         }
         else if (Input.GetAxis("Vertical") < 0)
@@ -94,7 +96,7 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(-transform.forward * (speed * 2), ForceMode.Impulse);
-                isDodging = false;
+                anim.SetBool("IsDodging", true);
             }
         }
 
@@ -106,7 +108,7 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(transform.right * (speed * 2), ForceMode.Impulse);
-                isDodging = false;
+                anim.SetBool("IsDodging", true);
             }
         } else if (Input.GetAxis("Horizontal") < 0)
         {
@@ -115,10 +117,11 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(-transform.right * (speed * 2), ForceMode.Impulse);
-                isDodging = false;
+                anim.SetBool("IsDodging", true);
             }
         }
 
-        
+        isDodging = false;
+        anim.SetBool("IsDodging", false);
     }
 }

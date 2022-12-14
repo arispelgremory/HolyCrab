@@ -329,10 +329,10 @@ InputManager:
     m_Name: Shift
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: left shift
-    positiveButton: 
+    negativeButton: 
+    positiveButton: left shift
     altNegativeButton: 
-    altPositiveButton: joystick button 1
+    altPositiveButton: right shift
     gravity: 0
     dead: 0
     sensitivity: 0
