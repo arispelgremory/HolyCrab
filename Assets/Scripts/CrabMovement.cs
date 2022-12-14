@@ -12,6 +12,8 @@ public class CrabMovement : MonoBehaviour
     private Rigidbody rb;
     private Animator anim;
     
+    bool isDodging = false;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +65,12 @@ public class CrabMovement : MonoBehaviour
         
         // TODO: fix slow at start fast at end
         
-        
+        // TODO: fix shift not working
+        // Dodge
+        if (Input.GetKeyDown("Shift") && !isDodging)
+        {
+            isDodging = true;
+        }
     }
 
     private void FixedUpdate()
@@ -73,20 +80,45 @@ public class CrabMovement : MonoBehaviour
         if(Input.GetAxis("Vertical") > 0)
         {
             rb.AddForce(transform.forward * speed, ForceMode.Acceleration);
+            // Dodge
+            if (isDodging)
+            {
+                rb.AddForce(transform.forward * (speed * 2), ForceMode.Impulse);
+                isDodging = false;
+            }
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
             rb.AddForce(-transform.forward * speed, ForceMode.Acceleration);
+            // Dodge
+            if (isDodging)
+            {
+                rb.AddForce(-transform.forward * (speed * 2), ForceMode.Impulse);
+                isDodging = false;
+            }
         }
 
         
         if (Input.GetAxis("Horizontal") > 0)
         {
             rb.AddForce(transform.right * speed, ForceMode.Acceleration);
+            // Dodge
+            if (isDodging)
+            {
+                rb.AddForce(transform.right * (speed * 2), ForceMode.Impulse);
+                isDodging = false;
+            }
         } else if (Input.GetAxis("Horizontal") < 0)
         {
             rb.AddForce(-transform.right * speed, ForceMode.Acceleration);
-            
+            // Dodge
+            if (isDodging)
+            {
+                rb.AddForce(-transform.right * (speed * 2), ForceMode.Impulse);
+                isDodging = false;
+            }
         }
+
+        
     }
 }
