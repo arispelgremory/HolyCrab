@@ -61,6 +61,7 @@ public class CrabMovement : MonoBehaviour
             anim.SetBool("IsRight", false);
             anim.SetBool("IsLeft", false);
             // Debug.Log("Not Moving");
+            
         }
         
         // TODO: fix slow at start fast at end
@@ -94,7 +95,8 @@ public class CrabMovement : MonoBehaviour
             rb.AddForce(-transform.forward * speed, ForceMode.Acceleration);
             // Dodge
             if (isDodging)
-            {
+            {  
+                
                 rb.AddForce(-transform.forward * (speed * 2), ForceMode.Impulse);
                 anim.SetBool("IsDodging", true);
             }
@@ -119,6 +121,13 @@ public class CrabMovement : MonoBehaviour
                 rb.AddForce(-transform.right * (speed * 2), ForceMode.Impulse);
                 anim.SetBool("IsDodging", true);
             }
+        }
+        
+        // Not moving dodge
+        if (isDodging && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        {
+            rb.AddForce(0, 0, 1 * (speed * 2), ForceMode.Impulse);
+            anim.SetBool("IsDodging", true);
         }
 
         isDodging = false;
