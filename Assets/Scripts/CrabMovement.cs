@@ -8,11 +8,14 @@ public class CrabMovement : MonoBehaviour
 {
 
     public float speed = 15;
+    public float friction = 0.5f;
+    public float frictionDuringDash = 2.5f;
 
     private Rigidbody rb;
     private Animator anim;
     
     private bool isDodging = false;
+    private bool isAttacking = false;
     
     // Start is called before the first frame update
     void Start()
@@ -24,14 +27,27 @@ public class CrabMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        // Cannot dodge while attack
+        // Jump dodge is ok
+        // cannot attack while jump
+
         if (Input.GetButtonDown("Fire1"))
         {
+            // Trigger attack animation
             anim.SetTrigger("IsAttack");
         } else if (Input.GetButtonDown("Fire2"))
         {
+            // Trigger heavy attack animation
             anim.SetTrigger("IsHeavyAttack");
+        } else if (Input.GetButtonDown("Shift") && !isDodging)
+        {
+            // Trigger dodge animation
+            anim.SetTrigger("IsDodging");
+            isDodging = true;
+            setDashFriction();
+            
         }
-
+        
         // Movement
         if (rb.velocity.z > 0)
         {
@@ -48,10 +64,12 @@ public class CrabMovement : MonoBehaviour
         } else if (rb.velocity.x > 0)
         {
             anim.SetBool("IsRight", true);
+            anim.SetBool("IsLeft", false);
             // Debug.Log("Moving Right");
         } else if (rb.velocity.x < 0)
         {
             anim.SetBool("IsLeft", true);
+            anim.SetBool("IsRight", false);
             // Debug.Log("Moving Left");
         }
         else
@@ -63,17 +81,8 @@ public class CrabMovement : MonoBehaviour
             // Debug.Log("Not Moving");
             
         }
-        
-        // TODO: fix slow at start fast at end
-        
-        // Can dodge while jumping?
-        // Dodge
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDodging)
-        {
-            isDodging = true;
-            anim.SetBool("IsDodging", true);
-            Debug.Log("Dodge");
-        }
+        //
+        // // TODO: fix slow at start fast at end
     }
 
     private void FixedUpdate()
@@ -86,8 +95,9 @@ public class CrabMovement : MonoBehaviour
             // Dodge
             if (isDodging)
             {
+                
                 rb.AddForce(transform.forward * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                // anim.SetBool("IsDodging", true);
             }
         }
         else if (Input.GetAxis("Vertical") < 0)
@@ -95,10 +105,10 @@ public class CrabMovement : MonoBehaviour
             rb.AddForce(-transform.forward * speed, ForceMode.Acceleration);
             // Dodge
             if (isDodging)
-            {  
+            {
                 
                 rb.AddForce(-transform.forward * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                // anim.SetBool("IsDodging", true);
             }
         }
 
@@ -110,7 +120,7 @@ public class CrabMovement : MonoBehaviour
             if (isDodging)
             {
                 rb.AddForce(transform.right * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                // anim.SetBool("IsDodging", true);
             }
         } else if (Input.GetAxis("Horizontal") < 0)
         {
@@ -118,19 +128,37 @@ public class CrabMovement : MonoBehaviour
             // Dodge
             if (isDodging)
             {
+                
                 rb.AddForce(-transform.right * (speed * 2), ForceMode.Impulse);
-                anim.SetBool("IsDodging", true);
+                // anim.SetBool("IsDodging", true);
             }
         }
         
         // Not moving dodge
         if (isDodging && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
+            
             rb.AddForce(0, 0, 1 * (speed * 2), ForceMode.Impulse);
-            anim.SetBool("IsDodging", true);
+            // anim.SetBool("IsDodging", true);
         }
 
-        isDodging = false;
-        anim.SetBool("IsDodging", false);
+        if (isDodging)
+        {
+            isDodging = false;
+            Invoke("setNormalFriction", 0.5f);
+        }
+        
+        // anim.SetBool("IsDodging", false);
     }
+
+    void setNormalFriction()
+    {
+        rb.drag = friction;
+    }
+    
+    void setDashFriction()
+    {
+        rb.drag = frictionDuringDash;
+    }
+    
 }
