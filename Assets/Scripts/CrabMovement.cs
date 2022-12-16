@@ -15,7 +15,7 @@ public class CrabMovement : MonoBehaviour
     private Animator anim;
     
     private bool isDodging = false;
-    private bool isAttacking = false;
+    public bool attackable = true;
     
     // Start is called before the first frame update
     void Start()
@@ -31,11 +31,12 @@ public class CrabMovement : MonoBehaviour
         // Jump dodge is ok
         // cannot attack while jump
 
-        if (Input.GetButtonDown("Fire1"))
+        // TODO: set timeouts for dodge and attack
+        if (Input.GetButtonDown("Fire1") && attackable)
         {
             // Trigger attack animation
             anim.SetTrigger("IsAttack");
-        } else if (Input.GetButtonDown("Fire2"))
+        } else if (Input.GetButtonDown("Fire2") && attackable)
         {
             // Trigger heavy attack animation
             anim.SetTrigger("IsHeavyAttack");
