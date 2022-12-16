@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.120751046, g: 0.18641728, b: 0.3351589, a: 1}
+  m_IndirectSpecularColor: {r: 0.12076032, g: 0.18643649, b: 0.3352496, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -248,23 +248,12 @@ MonoBehaviour:
   speed: 15
   friction: 1
   frictionDuringDash: 3
---- !u!114 &1012139125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1012139118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccf4363c2f90ad4c8971cb240ffeac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpForce: 10
+  jumpForce: 2
   jumpTime: 0.5
-  jumpDelay: 0.5
+  jumpDelay: 500
   jumpFallMultiplier: 2.5
   jumpLowMultiplier: 2
+  dashCooldownTime: 10
 --- !u!1 &1103564019
 GameObject:
   m_ObjectHideFlags: 0

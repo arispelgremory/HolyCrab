@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CrabMovement : MonoBehaviour
@@ -9,19 +10,33 @@ public class CrabMovement : MonoBehaviour
 
     public float speed = 15;
     public float friction = 0.5f;
-    public float frictionDuringDash = 2.5f;
+    public float frictionDuringDash = 3.0f;
 
     private Rigidbody rb;
     private Animator anim;
     
+    
+    private bool attackable = true;
+    
+    // Jump properties
+    bool isJumping = false;
+    public int jumpForce = 2;
+    public float jumpTime = 0.5f;
+    public int jumpDelay = 500; // jump time delay in milliseconds
+    public float jumpFallMultiplier = 2.5f;
+    public float jumpLowMultiplier = 2f;
+    
+    // Dash properties
     private bool isDodging = false;
-    public bool attackable = true;
+    public float dashCooldownTime = 10.0f; // The cooldown time in seconds
+    private float dashRemainingCooldownTime; // The remaining cooldown time
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        dashRemainingCooldownTime = dashCooldownTime;
     }
 
     // Update is called once per frame
@@ -42,10 +57,18 @@ public class CrabMovement : MonoBehaviour
             anim.SetTrigger("IsHeavyAttack");
         } else if (Input.GetButtonDown("Shift") && !isDodging)
         {
-            // Trigger dodge animation
-            anim.SetTrigger("IsDodging");
-            isDodging = true;
+            if (rb.velocity.z >= 0)
+            {
+                // Trigger dodge animation
+                anim.SetTrigger("IsDodging");
+            }
+            else
+            {
+                anim.SetTrigger("IsDodgingBackwards");
+            }
+            
             setDashFriction();
+            isDodging = true;
             
         }
         
@@ -82,8 +105,6 @@ public class CrabMovement : MonoBehaviour
             // Debug.Log("Not Moving");
             
         }
-        //
-        // // TODO: fix slow at start fast at end
     }
 
     private void FixedUpdate()
@@ -92,23 +113,22 @@ public class CrabMovement : MonoBehaviour
         // Add diagonal movement
         if(Input.GetAxis("Vertical") > 0)
         {
-            rb.AddForce(transform.forward * speed, ForceMode.Acceleration);
+            rb.AddForce(transform.forward * (speed * Time.deltaTime), ForceMode.Acceleration);
             // Dodge
             if (isDodging)
             {
-                
-                rb.AddForce(transform.forward * (speed * 2), ForceMode.Impulse);
+                rb.AddForce(transform.forward * (speed * jumpForce), ForceMode.Impulse);
                 // anim.SetBool("IsDodging", true);
             }
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
-            rb.AddForce(-transform.forward * speed, ForceMode.Acceleration);
+            rb.AddForce(-transform.forward * (speed * Time.deltaTime), ForceMode.Acceleration);
             // Dodge
             if (isDodging)
             {
                 
-                rb.AddForce(-transform.forward * (speed * 2), ForceMode.Impulse);
+                rb.AddForce(-transform.forward * (speed * jumpForce), ForceMode.Impulse);
                 // anim.SetBool("IsDodging", true);
             }
         }
@@ -116,21 +136,21 @@ public class CrabMovement : MonoBehaviour
         
         if (Input.GetAxis("Horizontal") > 0)
         {
-            rb.AddForce(transform.right * speed, ForceMode.Acceleration);
+            rb.AddForce(transform.right * (speed * Time.deltaTime), ForceMode.Acceleration);
             // Dodge
             if (isDodging)
             {
-                rb.AddForce(transform.right * (speed * 2), ForceMode.Impulse);
+                rb.AddForce(transform.right * (speed * jumpForce), ForceMode.Impulse);
                 // anim.SetBool("IsDodging", true);
             }
         } else if (Input.GetAxis("Horizontal") < 0)
         {
-            rb.AddForce(-transform.right * speed, ForceMode.Acceleration);
+            rb.AddForce(-transform.right * (speed * Time.deltaTime), ForceMode.Acceleration);
             // Dodge
             if (isDodging)
             {
                 
-                rb.AddForce(-transform.right * (speed * 2), ForceMode.Impulse);
+                rb.AddForce(-transform.right * (speed * jumpForce), ForceMode.Impulse);
                 // anim.SetBool("IsDodging", true);
             }
         }
@@ -139,7 +159,7 @@ public class CrabMovement : MonoBehaviour
         if (isDodging && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
             
-            rb.AddForce(0, 0, 1 * (speed * 2), ForceMode.Impulse);
+            rb.AddForce(0, 0, 1 * (speed * jumpForce), ForceMode.Impulse);
             // anim.SetBool("IsDodging", true);
         }
 
@@ -152,6 +172,28 @@ public class CrabMovement : MonoBehaviour
         // anim.SetBool("IsDodging", false);
     }
 
+    private async void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Terrain")
+        {
+            await Task.Delay(jumpDelay);
+            isJumping = false;
+            attackable = true;
+        }
+    }
+
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Terrain")
+        {
+            isJumping = true;
+            // Cannot attack while jumping
+            attackable = false;
+        }
+    }
+    
+    
     void setNormalFriction()
     {
         rb.drag = friction;
