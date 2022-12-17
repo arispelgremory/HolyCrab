@@ -53,7 +53,7 @@ public class CrabMovement : MonoBehaviour
 
     // Dash properties
     private bool isDashing = false;
-    public float dashCooldownTime = 5.0f; // The cooldown time in seconds
+    public float dashCooldownTime = 1.0f; // Dash cooldown time in seconds
     private float dashTimer = 5.0f; // The remaining cooldown time
     public float dashForce = 1.2f;
     public int dashDelayInMilliseconds = 500;
@@ -74,6 +74,11 @@ public class CrabMovement : MonoBehaviour
         // cannot attack while jump
         jumpTimer += Time.deltaTime;
         dashTimer += Time.deltaTime;
+
+        if (dashTimer >= dashCooldownTime)
+        {
+            Debug.Log("can dash: " + dashTimer);
+        }
         
         // Attack
         if (Input.GetButtonDown("Fire1"))
@@ -96,27 +101,13 @@ public class CrabMovement : MonoBehaviour
             }
             
             // Dash
-            if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer > dashCooldownTime)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && (dashTimer > dashCooldownTime))
             {
                 Debug.Log("Dashing");
                 isDashing = True;
                 animateDodge();
             }
         }
-
-        async void animateDodge()
-        {
-            await Task.Delay(dashDelayInMilliseconds);
-            if (isMovingForward)
-            {
-                anim.SetTrigger(IsDodging);
-            }
-            else
-            {
-                anim.SetTrigger(IsDodgingBackwards);
-            }
-        }
-        
         
         // Check if the player is pressing the button
         if (Input.GetAxis("Vertical") > 0)
@@ -209,66 +200,20 @@ public class CrabMovement : MonoBehaviour
             anim.SetBool(IsLeft, False);
             anim.SetBool(IsRight, False);
         }
+    }
+    
+    void animateDodge()
+    {
+        if (isMovingForward)
+        {
+            anim.SetTrigger(IsDodging);
+        }
+        else if(isMovingBackward)
+        {
+            anim.SetTrigger(IsDodgingBackwards);
+        }
 
-        // TODO: set timeouts for dodge and attack
-        // if (Input.GetButtonDown("Fire1") && attackable)
-        // {
-        //     // Trigger attack animation
-        //     anim.SetTrigger("IsAttack");
-        // } else if (Input.GetButtonDown("Fire2") && attackable)
-        // {
-        //     // Trigger heavy attack animation
-        //     anim.SetTrigger("IsHeavyAttack");
-        // } else if (Input.GetButtonDown("Shift") && !isDashing)
-        // {
-        //     if (rb.velocity.z >= 0)
-        //     {
-        //         // Trigger dodge animation
-        //         anim.SetTrigger("IsDodging");
-        //     }
-        //     else
-        //     {
-        //         anim.SetTrigger("IsDodgingBackwards");
-        //     }
-        //     
-        //     setDashFriction();
-        //     isDashing = true;
-        //     
-        // }
-        
-        // Movement
-        // if (rb.velocity.z > 0)
-        // {
-        //     anim.SetBool("IsForward", true);
-        //     anim.SetBool("IsRight", false);
-        //     anim.SetBool("IsLeft", false);
-        //     // Debug.Log("Moving Forward");
-        // } else if (rb.velocity.z < 0)
-        // {
-        //     anim.SetBool("IsBackward", true);
-        //     anim.SetBool("IsRight", false);
-        //     anim.SetBool("IsLeft", false);
-        //     // Debug.Log("Moving Backwards");
-        // } else if (rb.velocity.x > 0)
-        // {
-        //     anim.SetBool("IsRight", true);
-        //     anim.SetBool("IsLeft", false);
-        //     // Debug.Log("Moving Right");
-        // } else if (rb.velocity.x < 0)
-        // {
-        //     anim.SetBool("IsLeft", true);
-        //     anim.SetBool("IsRight", false);
-        //     // Debug.Log("Moving Left");
-        // }
-        // else
-        // {
-        //     anim.SetBool("IsForward", false);
-        //     anim.SetBool("IsBackward", false);
-        //     anim.SetBool("IsRight", false);
-        //     anim.SetBool("IsLeft", false);
-        //     // Debug.Log("Not Moving");
-        //     
-        // }
+        dashTimer = 0.0f;
     }
 
     private void calculateMoving(Vector3 direction, ForceMode forceMode)
@@ -276,8 +221,9 @@ public class CrabMovement : MonoBehaviour
         rb.AddForce(direction * (movingSpeed * Time.deltaTime), forceMode);
     }
 
-    private void calculateDash(Vector3 direction, ForceMode forceMode)
+    public IEnumerator calculateDash(Vector3 direction, ForceMode forceMode)
     {
+        yield return new WaitForSeconds(dashDelayInMilliseconds);
         rb.AddForce(direction * (movingSpeed * dashForce * Time.deltaTime), forceMode);
     }
 
@@ -295,12 +241,14 @@ public class CrabMovement : MonoBehaviour
         }
         
         // Add vertical movement velocity
+        
+        // TODO: fix forward and backward velocity is not the same
         if (isMovingForward)
         {
             calculateMoving(transform.forward, ForceMode.Acceleration);
             if (isDashing)
             {
-                calculateDash(transform.forward, ForceMode.Impulse);
+                StartCoroutine(calculateDash(transform.forward, ForceMode.Impulse));
             }
             else
             {
@@ -310,7 +258,7 @@ public class CrabMovement : MonoBehaviour
         {
             if (isDashing)
             {
-                calculateDash(-transform.forward, ForceMode.Impulse);
+                StartCoroutine(calculateDash(-transform.forward, ForceMode.Impulse));
             }
             else
             {
@@ -322,7 +270,7 @@ public class CrabMovement : MonoBehaviour
         {
             if (isDashing)
             {
-                calculateDash(-transform.right, ForceMode.Impulse);
+                StartCoroutine(calculateDash(-transform.right, ForceMode.Impulse));
             }
             else
             {
@@ -332,12 +280,16 @@ public class CrabMovement : MonoBehaviour
         {
             if (isDashing)
             {
-                calculateDash(transform.right, ForceMode.Impulse);
+                StartCoroutine(calculateDash(transform.right, ForceMode.Impulse));
             }
             else
             {
                 calculateMoving(transform.right, ForceMode.Acceleration);
             }
+        }
+        else if (isDashing)
+        {
+            isDashing = False;
         }
 
         // Not moving dodge
