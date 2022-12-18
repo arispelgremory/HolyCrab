@@ -77,7 +77,7 @@ public class CrabMovement : MonoBehaviour
 
         if (dashTimer >= dashCooldownTime)
         {
-            Debug.Log("can dash: " + dashTimer);
+            // Debug.Log("can dash: " + dashTimer);
         }
         
         // Attack
