@@ -45,7 +45,7 @@ AnimatorStateMachine:
     m_Position: {x: 570, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2533777555442589402}
-    m_Position: {x: 320, y: 40, z: 0}
+    m_Position: {x: 280, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2763649651519999574}
     m_Position: {x: 830, y: 40, z: 0}
@@ -1019,9 +1019,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: IsDodging
     m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: IsForward
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 362501841501794460}
   m_Solo: 0
@@ -1031,7 +1028,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.9375
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1

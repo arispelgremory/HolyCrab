@@ -218,12 +218,14 @@ public class CrabMovement : MonoBehaviour
 
     private void calculateMoving(Vector3 direction, ForceMode forceMode)
     {
+        Debug.Log("Movement: " + direction * (movingSpeed * Time.deltaTime));
         rb.AddForce(direction * (movingSpeed * Time.deltaTime), forceMode);
     }
 
     public IEnumerator calculateDash(Vector3 direction, ForceMode forceMode)
     {
         yield return new WaitForSeconds(dashDelayInMilliseconds);
+        Debug.Log("Dash: " + (movingSpeed * dashForce * Time.deltaTime));
         rb.AddForce(direction * (movingSpeed * dashForce * Time.deltaTime), forceMode);
     }
 
