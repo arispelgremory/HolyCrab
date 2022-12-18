@@ -25,20 +25,30 @@ public class CharacterJump : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            isJumping = true;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
 
     private void FixedUpdate()
     {
-        if (isJumping)
+        
+    }
+    
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Terrain")
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            
-            Debug.Log("Jump: " + transform.forward *jumpForce);
-            
             isJumping = false;
+        }
+    }
+
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Terrain")
+        {
+            isJumping = true;
         }
     }
 }
