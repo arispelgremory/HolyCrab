@@ -16,8 +16,8 @@ public class FevertimeUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeToMaxInSeconds = GameManager.timeToMaxInSeconds;
-        maxSliderValue = GameManager.maxSliderValue;
+        timeToMaxInSeconds = PlayerManager.timeToMaxInSeconds;
+        maxSliderValue = PlayerManager.maxSliderValue;
         timeToMaxFill = timeToMaxInSeconds / maxSliderValue;
     }
     

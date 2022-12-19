@@ -38,7 +38,7 @@ public class CrabMovement : MonoBehaviour
     
     [Header("Player Settings")]
     // Movements
-    public float intervals = 1.0f;
+    public float velocityThreshold = 0.1f;
     private float timer = 0.0f;
     private bool isMovingForward = false;
     private bool isMovingBackward = false;
@@ -67,6 +67,10 @@ public class CrabMovement : MonoBehaviour
     public static bool dashable = true;
     
 
+    // Input Settings
+    private float horizontalInput;
+    private float verticalInput;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -75,8 +79,8 @@ public class CrabMovement : MonoBehaviour
         setNormalFriction();
     
         // World Settings
-        gravity = GameManager.gravity;
-        friction = GameManager.friction;
+        gravity = PlayerManager.gravity;
+        friction = PlayerManager.friction;
 
         dashTimer = dashCooldownTime;
         jumpTimer = jumpCoolDownTime;
@@ -172,103 +176,82 @@ public class CrabMovement : MonoBehaviour
             heavyAttackable = False;
         }
 
+        // Movement
         // Check if the player is pressing the button
-        if (Input.GetAxis("Vertical") > 0)
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        
+        Debug.Log(horizontalInput);
+        
+        // Check if the player is moving
+        if (verticalInput != 0)
         {
-            anim.SetBool(IsForward, True);
-            isMovingBackward = False;
-            isMovingForward = True;
-            // If the player is pressing the button, reset the timer
-            timer = intervals;
-            
-            if (Input.GetAxis("Horizontal") > 0)
-            {
-                anim.SetBool(IsRight, True);
-                isMovingLeft = False;
-                isMovingRight = True;
-                // If the player is pressing the button, reset the timer
-                timer = intervals;
-            } else if (Input.GetAxis("Horizontal") < 0)
-            {
-                anim.SetBool(IsLeft, True);
-                isMovingRight = False;
-                isMovingLeft = True;
-                // If the player is pressing the button, reset the timer
-                timer = intervals;
-            }
-            else
-            {
-                isMovingRight = False;
-                isMovingLeft = False;
-                anim.SetBool(IsRight, False);
-                anim.SetBool(IsLeft, False);
-            }
-            
-        } else if (Input.GetAxis("Vertical") < 0)
-        {
-            anim.SetBool(IsBackward, True);
-            isMovingForward = False;
-            isMovingBackward = True;
-            // If the player is pressing the button, reset the timer
-            timer = intervals;
-            
-            if (Input.GetAxis("Horizontal") > 0)
-            {
-                anim.SetBool(IsRight, True);
-                isMovingLeft = False;
-                isMovingRight = True;
-                // If the player is pressing the button, reset the timer
-                timer = intervals;
-            } else if (Input.GetAxis("Horizontal") < 0)
-            {
-                anim.SetBool(IsLeft, True);
-                isMovingRight = False;
-                isMovingLeft = True;
-                // If the player is pressing the button, reset the timer
-                timer = intervals;
-            }
-            else
-            {
-                isMovingRight = False;
-                isMovingLeft = False;
-                anim.SetBool(IsRight, False);
-                anim.SetBool(IsLeft, False);
-            }
-            
-            
-        } else if (Input.GetAxis("Horizontal") > 0)
-        {
-            anim.SetBool(IsRight, True);
-            isMovingLeft = False;
-            isMovingRight = True;
-            // If the player is pressing the button, reset the timer
-            timer = intervals;
-        } else if (Input.GetAxis("Horizontal") < 0)
-        {
-            anim.SetBool(IsLeft, True);
-            isMovingRight = False;
-            isMovingLeft = True;
-            // If the player is pressing the button, reset the timer
-            timer = intervals;
+            anim.SetBool(IsForward, verticalInput > 0);
+            anim.SetBool(IsBackward, verticalInput < 0);
+            isMovingForward = verticalInput > 0;
+            isMovingBackward = verticalInput < 0;
         }
-        else
+
+        if (horizontalInput != 0 && !anim.GetBool(IsForward) && !anim.GetBool(IsBackward))
         {
-            timer = intervals;
-            isMovingForward = False;
-            isMovingBackward = False;
-            isMovingRight = False;
-            isMovingLeft = False;
+            Debug.Log("Animating left or right");
+            anim.SetBool(IsRight, verticalInput > 0);
+            anim.SetBool(IsLeft, verticalInput < 0);
+        }
+
+        if (horizontalInput != 0)
+        {
+            isMovingLeft = horizontalInput < 0;
+            isMovingRight = horizontalInput > 0;
+        }
+        
+        if (rb.velocity.z == 0 && verticalInput == 0)
+        {
             anim.SetBool(IsForward, False);
             anim.SetBool(IsBackward, False);
+            isMovingForward = False;
+            isMovingBackward = False;
+        }
+
+        if (rb.velocity.x == 0 && horizontalInput == 0)
+        {
+            Debug.Log("Canceling animation of left or right");
             anim.SetBool(IsLeft, False);
             anim.SetBool(IsRight, False);
+            isMovingLeft = False;
+            isMovingRight = False;
         }
+
     }
 
 
     private void FixedUpdate()
     {
+        Vector3 movement = new Vector3(0, 0, 0);
         
+        // Forward
+        if (verticalInput > 0)
+        {
+            movement += transform.forward;
+            
+        } else if (verticalInput < 0)
+        {
+            movement += (transform.forward * -1);
+        }
+        
+        // Right
+        if (horizontalInput > 0)
+        {
+            movement += transform.right;
+        } else if (horizontalInput < 0)
+        {
+            movement += (transform.right * -1);
+        }
+        
+        movement.Normalize();
+        movement *= movingSpeed;
+        movement *= Time.deltaTime;
+        rb.AddForce(movement, ForceMode.Acceleration);
     }
 
     IEnumerator Dash()
