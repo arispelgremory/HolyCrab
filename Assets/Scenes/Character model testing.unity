@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.120751046, g: 0.18641728, b: 0.3351589, a: 1}
+  m_IndirectSpecularColor: {r: 0.12076032, g: 0.18643649, b: 0.3352496, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -207,12 +207,12 @@ Rigidbody:
   m_GameObject: {fileID: 1012139118}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
+  m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!4 &1012139121 stripped
 Transform:
@@ -233,38 +233,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.3602381, z: 1}
   m_Center: {x: 0, y: 0.7063737, z: 0}
---- !u!114 &1012139124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1012139118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea4b3456dd2ac2643aead4b6a644bfb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 15
-  friction: 1
-  frictionDuringDash: 3
---- !u!114 &1012139125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1012139118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccf4363c2f90ad4c8971cb240ffeac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpForce: 10
-  jumpTime: 0.5
-  jumpDelay: 0.5
-  jumpFallMultiplier: 2.5
-  jumpLowMultiplier: 2
 --- !u!1 &1103564019
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +265,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012139121}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 7.83, y: 0, z: 0}
 --- !u!114 &1103564021
 MonoBehaviour:
@@ -466,7 +434,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 15.834, y: 0, z: 0}
 --- !u!114 &1502673353
 MonoBehaviour:
@@ -594,7 +562,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1707888195
 MonoBehaviour:
@@ -628,20 +596,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrabMonsterDefault
       objectReference: {fileID: 0}
-    - target: {fileID: 3443190119473844962, guid: fb10691c82b528a48904ff0dc8feee6f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3443190119473844972, guid: fb10691c82b528a48904ff0dc8feee6f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3443190119473844988, guid: fb10691c82b528a48904ff0dc8feee6f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3443190119473844988, guid: fb10691c82b528a48904ff0dc8feee6f,
         type: 3}
@@ -693,11 +651,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3443190119480786188, guid: fb10691c82b528a48904ff0dc8feee6f,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 1c72cebbdba53ee4cb0754d2e07e5655, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb10691c82b528a48904ff0dc8feee6f, type: 3}
 --- !u!1 &2004540768
@@ -713,7 +666,7 @@ GameObject:
   - component: {fileID: 2004540769}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Terrain
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -776,7 +729,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2079862412
 PrefabInstance:
@@ -788,10 +741,6 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_Name
       value: FPSController
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_RootOrder
@@ -840,10 +789,6 @@ PrefabInstance:
     - target: {fileID: 2000000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_Enabled
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
-      propertyPath: m_Constraints
-      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}

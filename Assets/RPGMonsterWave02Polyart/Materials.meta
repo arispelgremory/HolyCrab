@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: e838e27e812e7ac4d8930df29b431faf
+<<<<<<<< HEAD:Assets/Alstra Infinite/Boats LowPoly/Materials.meta
+guid: 00b90db01a38e7345b19caf72397215b
+========
+guid: aa02e17fef3313548a0d6ace7473a8a7
+>>>>>>>> main:Assets/RPGMonsterWave02Polyart/Materials.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

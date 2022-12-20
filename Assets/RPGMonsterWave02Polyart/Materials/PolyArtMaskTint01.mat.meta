@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 4c7656c3b86ea6b4aabf604caf4f5b74
+<<<<<<<< HEAD:Assets/Alstra Infinite/Boats LowPoly/Materials/Main PolyPack.mat.meta
+guid: cff9b94ddc780064f88027d8f2cbf3d0
+========
+guid: 8ae10aa67e75a664f95e8ea0df6bc1c4
+>>>>>>>> main:Assets/RPGMonsterWave02Polyart/Materials/PolyArtMaskTint01.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000

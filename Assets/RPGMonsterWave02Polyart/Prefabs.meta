@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 58c088da625d5f246ab0bac3cf10b7ee
+<<<<<<<< HEAD:Assets/Alstra Infinite/Boats LowPoly/Prefabs.meta
+guid: 7f1ed19d390ab0e4cbd397ee9a2085b0
+========
+guid: d85095e7582f1fd44b6559276c85c538
+>>>>>>>> main:Assets/RPGMonsterWave02Polyart/Prefabs.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

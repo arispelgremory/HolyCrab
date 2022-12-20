@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: bac802af435fa734f9a84382ee5b3b49
+<<<<<<<< HEAD:Assets/Alstra Infinite/Boats LowPoly/Texture/Texture8x8.png.meta
+guid: 2bdfde02af39fdf4c81ee9bb49355be9
+========
+guid: 49bee2465c0f3a24a9f8ed9507b69d09
+>>>>>>>> main:Assets/RPGMonsterWave02Polyart/Textures/Mask01.png.meta
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}

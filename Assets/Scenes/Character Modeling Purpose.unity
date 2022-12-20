@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crab Base
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5a71ca7c1aabee64f89c20dccc395d11, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5a71ca7c1aabee64f89c20dccc395d11, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1334,12 +1338,12 @@ PrefabInstance:
     - target: {fileID: 401159591266194553, guid: 82f054ee2c04a8d4896001a0c69e18d4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.042427063
+      value: 0.02988875
       objectReference: {fileID: 0}
     - target: {fileID: 401159591266194553, guid: 82f054ee2c04a8d4896001a0c69e18d4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.7233152
+      value: 2.522706
       objectReference: {fileID: 0}
     - target: {fileID: 401159591266194553, guid: 82f054ee2c04a8d4896001a0c69e18d4,
         type: 3}
@@ -1405,6 +1409,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3257251374842493284, guid: 0f9a73081b219ac4799cd7a9b31265b2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1356991162, guid: 0f9a73081b219ac4799cd7a9b31265b2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.79
