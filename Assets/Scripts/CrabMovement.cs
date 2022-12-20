@@ -98,12 +98,9 @@ public class CrabMovement : MonoBehaviour
         heavyAttackTimer += Time.deltaTime;
 
         // TODO: Pressing two keys and it will play it after the other
-        if (dashTimer >= dashCooldownTime
-            && !isAttacking
-            && !isHeavyAttacking)
-        {
-            dashable = True;
-        }
+        dashable = (dashTimer >= dashCooldownTime
+                    && !isAttacking
+                    && !isHeavyAttacking);
 
         attackable = (attackTimer >= attackCoolDownTime
                       && !isDashing
@@ -111,7 +108,7 @@ public class CrabMovement : MonoBehaviour
         heavyAttackable = (heavyAttackTimer >= heavyAttackCoolDownTime
                            && !isDashing
                            && !isAttacking);
-        
+        Debug.Log("Dashable: " + dashable + " Attackable: " + attackable + " Heavy Attackable: " + heavyAttackable);
         
         
         if (Input.GetButtonDown("Shift") && 
@@ -189,13 +186,12 @@ public class CrabMovement : MonoBehaviour
         if (horizontalInput != 0 && !anim.GetBool(IsForward) && !anim.GetBool(IsBackward))
         {
             // Debug.Log("Animating left or right");
-            anim.SetBool(IsRight, verticalInput > 0);
-            anim.SetBool(IsLeft, verticalInput < 0);
+            anim.SetBool(IsRight, horizontalInput > 0);
+            anim.SetBool(IsLeft, horizontalInput < 0);
         }
 
         if (horizontalInput != 0)
         {
-            Debug.Log("Left:" + (horizontalInput < 0) + " Right:" + (horizontalInput > 0)); 
             isMovingLeft = horizontalInput < 0;
             isMovingRight = horizontalInput > 0;
         }
@@ -272,8 +268,8 @@ public class CrabMovement : MonoBehaviour
             anim.SetTrigger(IsDashingBackwards);
             movement += (transform.forward * -1);
         }
-
-        if (verticalInput > 0 || horizontalInput != 0)
+        
+        if(verticalInput > 0 || horizontalInput != 0)
         {
             anim.SetTrigger(IsDashing);
         }
