@@ -1,0 +1,11 @@
+Model Information:
+* title:	Beachgoer Crab
+* source:	https://sketchfab.com/3d-models/beachgoer-crab-36d9afee65bb43b882c93f83e7d5a73f
+* author:	savscarlett (https://sketchfab.com/savscarlett)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Beachgoer Crab" (https://sketchfab.com/3d-models/beachgoer-crab-36d9afee65bb43b882c93f83e7d5a73f) by savscarlett (https://sketchfab.com/savscarlett) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
