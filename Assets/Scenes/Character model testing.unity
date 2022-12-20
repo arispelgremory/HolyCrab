@@ -761,18 +761,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4b3456dd2ac2643aead4b6a644bfb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervals: 1
+  friction: 1.5
+  velocityThreshold: 0.1
   movingSpeed: 1000
-  friction: 2.5
-  frictionDuringDash: 7.5
-  jumpForce: 50
-  jumpDelay: 500
-  jumpCoolDown: 1.5
-  jumpHeight: 200
-  gravity: 9.81
-  dashCooldownTime: 2
+  jumpForce: 1500
+  frictionDuringDash: 5
   dashForce: 2
-  dashDelayInMilliseconds: 10
 --- !u!1 &1103564019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,8 +1998,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 840964043}
-  maxSliderValue: 100
-  timeToMaxInSeconds: 10
 --- !u!1 &1976936180
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class CrabMovement : MonoBehaviour
     private static readonly string IsAttack = "IsAttack";
     private static readonly string IsHeavyAttack = "IsHeavyAttack";
     private static readonly string IsDashing = "IsDodging";
-    private static readonly string IsDodgingBackwards = "IsDodgingBackwards";
+    private static readonly string IsDashingBackwards = "IsDodgingBackwards";
     
     // Boolean
     private static readonly bool True = true;
@@ -21,23 +21,23 @@ public class CrabMovement : MonoBehaviour
     private Rigidbody rb;
     private Animator anim;
     
-    private float friction;
+    [Header("Character Settings")]
+    public float friction = 2.5f;
     
-    [Header("Attack Settings")]
     // Attack
-    private float attackTimer = 0.0f;
+    [Header("Attack Settings")]
     public static float attackCoolDownTime = 1.5f;
-    private bool isAttacking = false;
     public static bool attackable = true;
+    private float attackTimer = 0.0f;
+    private bool isAttacking = false;
     
     private float heavyAttackTimer = 0.0f;
     public static float heavyAttackCoolDownTime = 5.0f;
     private bool isHeavyAttacking = false;
     public static bool heavyAttackable = true;
     
-    
-    [Header("Player Settings")]
     // Movements
+    [Header("Player Settings")]
     public float velocityThreshold = 0.1f;
     private float timer = 0.0f;
     private bool isMovingForward = false;
@@ -45,27 +45,26 @@ public class CrabMovement : MonoBehaviour
     private bool isMovingLeft = false;
     private bool isMovingRight = false;
     public float movingSpeed = 15;
-    public static float actionInterval = 1.0f;
+    public static float actionInterval = 0.5f;
 
-    [Header("Jump Settings")]
     // Jump properties
+    [Header("Jump Settings")]
     private bool isJumping = False;
     private bool isGrounded = True;
-    private float jumpForce;
+    public float jumpForce = 50.0f;
     private float gravity;
     public static readonly float jumpCoolDownTime = 1.5f;
-    public float jumpHeight = 2.0f;
     private float jumpTimer = 1.5f;
-
-    [Header("Dash Settings")]
+    
     // Dash properties
+    [Header("Dash Settings")]
+    public float frictionDuringDash = 5.0f;
+    public float dashForce = 1.2f;
     private bool isDashing = false;
     private float dashTimer = 5.0f; // The remaining cooldown time
-    public static float dashCooldownTime = 1.0f; // Dash cooldown time in seconds
-    public float dashForce = 1.2f;
-    public float frictionDuringDash = 5.0f;
     public static bool dashable = true;
-    
+    public static float dashCooldownTime = 2.0f; // Dash cooldown time in seconds
+
 
     // Input Settings
     private float horizontalInput;
@@ -79,8 +78,6 @@ public class CrabMovement : MonoBehaviour
         setNormalFriction();
     
         // World Settings
-        gravity = PlayerManager.gravity;
-        friction = PlayerManager.friction;
 
         dashTimer = dashCooldownTime;
         jumpTimer = jumpCoolDownTime;
@@ -100,27 +97,23 @@ public class CrabMovement : MonoBehaviour
         attackTimer += Time.deltaTime;
         heavyAttackTimer += Time.deltaTime;
 
+        // TODO: Pressing two keys and it will play it after the other
         if (dashTimer >= dashCooldownTime
             && !isAttacking
             && !isHeavyAttacking)
         {
             dashable = True;
         }
-        
-        if (attackTimer >= attackCoolDownTime
-            && !isDashing
-            && !isHeavyAttacking)
-        {
-            attackable = True;
-        }
-        
-        if (heavyAttackTimer >= heavyAttackCoolDownTime
-            && !isDashing
-            && !isAttacking)
-        {
-            heavyAttackable = True;
-        }
 
+        attackable = (attackTimer >= attackCoolDownTime
+                      && !isDashing
+                      && !isHeavyAttacking);
+        heavyAttackable = (heavyAttackTimer >= heavyAttackCoolDownTime
+                           && !isDashing
+                           && !isAttacking);
+        
+        
+        
         if (Input.GetButtonDown("Shift") && 
             dashTimer >= dashCooldownTime 
             && !isAttacking
@@ -136,6 +129,8 @@ public class CrabMovement : MonoBehaviour
             dashTimer = 0.0f;
             StartCoroutine(Dash());
         }
+        
+        
         
         if (
             Input.GetButtonDown("Fire1") && 
@@ -174,15 +169,14 @@ public class CrabMovement : MonoBehaviour
             isJumping = True;
             attackable = False;
             heavyAttackable = False;
+            StartCoroutine(Jump());
         }
 
         // Movement
         // Check if the player is pressing the button
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        
-        Debug.Log(horizontalInput);
-        
+
         // Check if the player is moving
         if (verticalInput != 0)
         {
@@ -194,13 +188,14 @@ public class CrabMovement : MonoBehaviour
 
         if (horizontalInput != 0 && !anim.GetBool(IsForward) && !anim.GetBool(IsBackward))
         {
-            Debug.Log("Animating left or right");
+            // Debug.Log("Animating left or right");
             anim.SetBool(IsRight, verticalInput > 0);
             anim.SetBool(IsLeft, verticalInput < 0);
         }
 
         if (horizontalInput != 0)
         {
+            Debug.Log("Left:" + (horizontalInput < 0) + " Right:" + (horizontalInput > 0)); 
             isMovingLeft = horizontalInput < 0;
             isMovingRight = horizontalInput > 0;
         }
@@ -256,7 +251,40 @@ public class CrabMovement : MonoBehaviour
 
     IEnumerator Dash()
     {
-        anim.SetTrigger(IsDashing);
+        Vector3 movement = new Vector3(0, 0, 0);
+        
+        // Horizontal velocity
+        if (horizontalInput > 0)
+        {
+            movement += transform.right;
+        } else if (horizontalInput < 0)
+        {
+            movement += (transform.right * -1);
+        }
+        
+        // Vertical velocity
+        if (verticalInput > 0)
+        {
+            movement += transform.forward;
+        } else if (verticalInput < 0)
+        {
+            Debug.Log("Dashing backward");
+            anim.SetTrigger(IsDashingBackwards);
+            movement += (transform.forward * -1);
+        }
+
+        if (verticalInput > 0 || horizontalInput != 0)
+        {
+            anim.SetTrigger(IsDashing);
+        }
+
+        movement.Normalize();
+        movement *= movingSpeed;
+        movement *= Time.deltaTime;
+        movement *= dashForce;
+        rb.drag = frictionDuringDash;
+        rb.AddForce(movement, ForceMode.Impulse);
+        
         
         // Perform physics calculation and apply damage to any colliders within range
         RaycastHit hit;
@@ -271,6 +299,7 @@ public class CrabMovement : MonoBehaviour
 
         // Wait for attack animation to finish before allow to dash
         yield return new WaitForSeconds(actionInterval);
+        rb.drag = friction;
         isDashing = False;
     }
     
@@ -311,6 +340,18 @@ public class CrabMovement : MonoBehaviour
         // Wait for attack animation to finish before allow to heavy attack
         yield return new WaitForSeconds(actionInterval);
         isHeavyAttacking = False;
+    }
+
+    IEnumerator Jump()
+    {
+        Vector3 movement = new Vector3(0, 1, 0);
+        movement.Normalize();
+        movement *= jumpForce;
+        movement *= Time.deltaTime;
+        Debug.Log(movement);
+        rb.AddForce(movement, ForceMode.Impulse);
+        
+        yield return new WaitForSeconds(actionInterval);
     }
 
     private void OnCollisionEnter(Collision collision)

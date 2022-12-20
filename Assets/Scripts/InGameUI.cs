@@ -6,14 +6,17 @@ public class InGameUI : MonoBehaviour
     [Header("Normal Attack")]
     public Image normalAttack;
     public float normalAttackCDInSeconds;
+    private float attackTimer = 0f;
 
     [Header("Heavy Attack")]
     public Image heavyAttack;
     public float heavyAttackCDInSeconds;
+    private float heavyAttackTimer = 0f;
 
     [Header("Dash")]
     public Image dash;
     public float dashCDInSeconds;
+    private float dashTimer = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +24,19 @@ public class InGameUI : MonoBehaviour
         normalAttack.fillAmount = 0;
         heavyAttack.fillAmount = 0;
         dash.fillAmount = 0;
+
+        normalAttackCDInSeconds = CrabMovement.attackCoolDownTime;
+        heavyAttackCDInSeconds = CrabMovement.heavyAttackCoolDownTime;
+        dashCDInSeconds = CrabMovement.dashCooldownTime;
     }
 
     // Update is called once per frame
     void Update()
     {
+        attackTimer += Time.deltaTime;
+        heavyAttackTimer += Time.deltaTime;
+        dashTimer += Time.deltaTime;
+        
         NormalAttack();
         HeavyAttack();
         Dash();
@@ -33,19 +44,20 @@ public class InGameUI : MonoBehaviour
 
     private void NormalAttack()
     {
-        if(Input.GetButtonDown("Fire1") && CrabMovement.attackable)
+        if(Input.GetButtonDown("Fire1") && !CrabMovement.attackable && attackTimer == 0)
         {
             normalAttack.fillAmount = 1;
+        } 
+        else if(!CrabMovement.attackable && attackTimer > 0)
+        {
+            normalAttack.fillAmount -= 1 / normalAttackCDInSeconds * Time.deltaTime;
         }
 
-        if (!CrabMovement.attackable)
-        {
-            normalAttack.fillAmount -= 1 / (normalAttackCDInSeconds) * Time.deltaTime;
-        }
         
-        if(normalAttack.fillAmount <= 0)
+        if(CrabMovement.attackable && attackTimer > normalAttackCDInSeconds)
         {
             normalAttack.fillAmount = 0;
+            attackTimer = 0;
         }
         
     }
@@ -59,7 +71,7 @@ public class InGameUI : MonoBehaviour
 
         if (!CrabMovement.heavyAttackable)
         {
-            heavyAttack.fillAmount -= 1 /  (heavyAttackCDInSeconds) * Time.deltaTime;
+            heavyAttack.fillAmount -= 1 /  ((heavyAttackCDInSeconds * Time.deltaTime) + CrabMovement.actionInterval);
         }
         
         if(heavyAttack.fillAmount <= 0)
@@ -78,7 +90,7 @@ public class InGameUI : MonoBehaviour
 
         if (!CrabMovement.dashable)
         {
-            dash.fillAmount -= 1 / (dashCDInSeconds) * Time.deltaTime;
+            dash.fillAmount -= 1 / ((Time.deltaTime * dashCDInSeconds) + CrabMovement.actionInterval);
         }
         
         if(dash.fillAmount <= 0)
