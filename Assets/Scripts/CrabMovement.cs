@@ -13,10 +13,6 @@ public class CrabMovement : MonoBehaviour
     private static readonly string IsHeavyAttack = "IsHeavyAttack";
     private static readonly string IsDashing = "IsDodging";
     private static readonly string IsDashingBackwards = "IsDodgingBackwards";
-    
-    // Boolean
-    private static readonly bool True = true;
-    private static readonly bool False = false;
 
     private Rigidbody rb;
     private Animator anim;
@@ -49,8 +45,8 @@ public class CrabMovement : MonoBehaviour
 
     // Jump properties
     [Header("Jump Settings")]
-    private bool isJumping = False;
-    private bool isGrounded = True;
+    private bool isJumping = false;
+    private bool isGrounded = true;
     public float jumpForce = 50.0f;
     private float gravity;
     public static readonly float jumpCoolDownTime = 1.5f;
@@ -119,10 +115,10 @@ public class CrabMovement : MonoBehaviour
         {
             // Dashable
             // Debug.Log("can dash: " + dashTimer);
-            isDashing = True;
-            dashable = False;
-            attackable = False;
-            heavyAttackable = False;
+            isDashing = true;
+            dashable = false;
+            attackable = false;
+            heavyAttackable = false;
             dashTimer = 0.0f;
             StartCoroutine(Dash());
         }
@@ -135,9 +131,9 @@ public class CrabMovement : MonoBehaviour
         {
             // Attackable
             isAttacking = true;
-            dashable = False;
-            attackable = False;
-            heavyAttackable = False;
+            dashable = false;
+            attackable = false;
+            heavyAttackable = false;
             attackTimer = 0.0f;
             StartCoroutine(Attack());
         } else if (Input.GetButtonDown("Fire2") && 
@@ -148,9 +144,9 @@ public class CrabMovement : MonoBehaviour
             // Heavy Attackable
             isHeavyAttacking = true;
             heavyAttackTimer = 0.0f;
-            dashable = False;
-            attackable = False;
-            heavyAttackable = False;
+            dashable = false;
+            attackable = false;
+            heavyAttackable = false;
             StartCoroutine(HeavyAttack());
         }
         
@@ -159,9 +155,9 @@ public class CrabMovement : MonoBehaviour
             jumpTimer > jumpCoolDownTime && 
             !isAttacking)
         {
-            isJumping = True;
-            attackable = False;
-            heavyAttackable = False;
+            isJumping = true;
+            attackable = false;
+            heavyAttackable = false;
             StartCoroutine(Jump());
         }
 
@@ -194,18 +190,18 @@ public class CrabMovement : MonoBehaviour
         
         if (rb.velocity.z == 0 && verticalInput == 0)
         {
-            anim.SetBool(IsForward, False);
-            anim.SetBool(IsBackward, False);
-            isMovingForward = False;
-            isMovingBackward = False;
+            anim.SetBool(IsForward, false);
+            anim.SetBool(IsBackward, false);
+            isMovingForward = false;
+            isMovingBackward = false;
         }
 
         if (rb.velocity.x == 0 && horizontalInput == 0)
         {
-            anim.SetBool(IsLeft, False);
-            anim.SetBool(IsRight, False);
-            isMovingLeft = False;
-            isMovingRight = False;
+            anim.SetBool(IsLeft, false);
+            anim.SetBool(IsRight, false);
+            isMovingLeft = false;
+            isMovingRight = false;
         }
 
     }
@@ -291,7 +287,7 @@ public class CrabMovement : MonoBehaviour
         // Wait for attack animation to finish before allow to dash
         yield return new WaitForSeconds(actionInterval);
         rb.drag = friction;
-        isDashing = False;
+        isDashing = false;
     }
     
     IEnumerator Attack()
@@ -311,7 +307,7 @@ public class CrabMovement : MonoBehaviour
 
         // Wait for attack animation to finish before allow to attack
         yield return new WaitForSeconds(actionInterval);
-        isAttacking = False;
+        isAttacking = false;
     }
     
     IEnumerator HeavyAttack()
@@ -330,7 +326,7 @@ public class CrabMovement : MonoBehaviour
 
         // Wait for attack animation to finish before allow to heavy attack
         yield return new WaitForSeconds(actionInterval);
-        isHeavyAttacking = False;
+        isHeavyAttacking = false;
     }
 
     IEnumerator Jump()
@@ -349,7 +345,7 @@ public class CrabMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Terrain")
         {
-            isGrounded = True;
+            isGrounded = true;
         }
     }
 
@@ -358,8 +354,8 @@ public class CrabMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Terrain")
         {
-            isGrounded = False;
-            isJumping = False;
+            isGrounded = false;
+            isJumping = false;
             jumpTimer = 0;
         }
     }

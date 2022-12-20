@@ -90,18 +90,17 @@ public class InGameUI : MonoBehaviour
     private void Dash()
     {
         bool isDashCoolDown = dashTimer < dashCDInSeconds;
-        Debug.Log("Dashable: " + (CrabMovement.dashable && !isDashCoolDown));
         if(Input.GetButtonDown("Shift") && CrabMovement.dashable && !isDashCoolDown)
         {
-            Debug.Log("Dash filling");
             dash.fillAmount = 1;
             dashTimer = 0;
+            
         }
 
         if (!CrabMovement.dashable && isDashCoolDown)
         {
-            dash.fillAmount -= 1 / Time.deltaTime * dashCDInSeconds;
-            if(dash.fillAmount <= 0)
+            dash.fillAmount -= 1 /  dashCDInSeconds * Time.deltaTime;
+            if(dash.fillAmount <= 0.01f)
             {
                 dash.fillAmount = 0;
             }
