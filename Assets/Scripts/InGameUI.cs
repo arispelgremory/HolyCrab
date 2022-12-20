@@ -25,6 +25,10 @@ public class InGameUI : MonoBehaviour
         heavyAttack.fillAmount = 0;
         dash.fillAmount = 0;
 
+        dashTimer = dashCDInSeconds;
+        attackTimer = normalAttackCDInSeconds;
+        heavyAttackTimer = heavyAttackCDInSeconds;
+
         normalAttackCDInSeconds = CrabMovement.attackCoolDownTime;
         heavyAttackCDInSeconds = CrabMovement.heavyAttackCoolDownTime;
         dashCDInSeconds = CrabMovement.dashCooldownTime;
@@ -54,49 +58,49 @@ public class InGameUI : MonoBehaviour
         if(!CrabMovement.attackable && isCoolDown)
         {
             normalAttack.fillAmount -= 1 / normalAttackCDInSeconds * Time.deltaTime;
-            if(normalAttack.fillAmount <= 0)
-            {
-                normalAttack.fillAmount = 0;
-            }
+        }
+        
+        if(normalAttack.fillAmount <= 0.01f)
+        {
+            normalAttack.fillAmount = 0;
         }
         
     }
     
     private void HeavyAttack()
     {
-        bool isCoolDown = heavyAttackTimer < heavyAttackCDInSeconds;
-        if(Input.GetButtonDown("Fire2") && CrabMovement.heavyAttackable && !isCoolDown)
+        bool isHeavyAttackCoolDown = heavyAttackTimer < heavyAttackCDInSeconds;
+        if(Input.GetButtonDown("Fire2") && !isHeavyAttackCoolDown && CrabMovement.heavyAttackable)
         {
             heavyAttack.fillAmount = 1;
             heavyAttackTimer = 0;
-        }
-
-        if (!CrabMovement.heavyAttackable && isCoolDown)
+        } 
+        
+        if(!CrabMovement.heavyAttackable && isHeavyAttackCoolDown)
         {
-            heavyAttack.fillAmount -= 1 /  ((heavyAttackCDInSeconds * Time.deltaTime));
+            heavyAttack.fillAmount -= 1 / heavyAttackCDInSeconds * Time.deltaTime;
         }
         
-        if(heavyAttack.fillAmount <= 0 && (CrabMovement.heavyAttackable && !isCoolDown))
+        if(heavyAttack.fillAmount <= 0.01f)
         {
             heavyAttack.fillAmount = 0;
         }
-        
-        
-        
     }
     
     private void Dash()
     {
-        bool isCoolDown = dashTimer < dashCDInSeconds;
-        if(Input.GetButtonDown("Shift") && CrabMovement.dashable && !isCoolDown)
+        bool isDashCoolDown = dashTimer < dashCDInSeconds;
+        Debug.Log("Dashable: " + (CrabMovement.dashable && !isDashCoolDown));
+        if(Input.GetButtonDown("Shift") && CrabMovement.dashable && !isDashCoolDown)
         {
+            Debug.Log("Dash filling");
             dash.fillAmount = 1;
             dashTimer = 0;
         }
 
-        if (!CrabMovement.dashable && isCoolDown)
+        if (!CrabMovement.dashable && isDashCoolDown)
         {
-            dash.fillAmount -= 1 / ((Time.deltaTime * dashCDInSeconds));
+            dash.fillAmount -= 1 / Time.deltaTime * dashCDInSeconds;
             if(dash.fillAmount <= 0)
             {
                 dash.fillAmount = 0;

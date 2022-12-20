@@ -126,9 +126,7 @@ public class CrabMovement : MonoBehaviour
             dashTimer = 0.0f;
             StartCoroutine(Dash());
         }
-        
-        
-        
+
         if (
             Input.GetButtonDown("Fire1") && 
             attackTimer >= attackCoolDownTime && 
@@ -142,9 +140,7 @@ public class CrabMovement : MonoBehaviour
             heavyAttackable = False;
             attackTimer = 0.0f;
             StartCoroutine(Attack());
-        } 
-        
-        if (Input.GetButtonDown("Fire2") && 
+        } else if (Input.GetButtonDown("Fire2") && 
             heavyAttackTimer >= heavyAttackCoolDownTime && 
             !isHeavyAttacking && 
             !isJumping)
@@ -206,7 +202,6 @@ public class CrabMovement : MonoBehaviour
 
         if (rb.velocity.x == 0 && horizontalInput == 0)
         {
-            Debug.Log("Canceling animation of left or right");
             anim.SetBool(IsLeft, False);
             anim.SetBool(IsRight, False);
             isMovingLeft = False;
