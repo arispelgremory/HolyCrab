@@ -11,6 +11,7 @@ TagManager:
   - stealingpoint
   - Spawn
   - Terrain
+  - UI
   layers:
   - Default
   - TransparentFX
