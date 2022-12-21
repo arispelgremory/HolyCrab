@@ -104,7 +104,7 @@ public class CrabMovement : MonoBehaviour
         heavyAttackable = (heavyAttackTimer >= heavyAttackCoolDownTime
                            && !isDashing
                            && !isAttacking);
-        Debug.Log("Dashable: " + dashable + " Attackable: " + attackable + " Heavy Attackable: " + heavyAttackable);
+        // Debug.Log("Dashable: " + dashable + " Attackable: " + attackable + " Heavy Attackable: " + heavyAttackable);
         
         
         if (Input.GetButtonDown("Shift") && 
@@ -255,7 +255,7 @@ public class CrabMovement : MonoBehaviour
             movement += transform.forward;
         } else if (verticalInput < 0)
         {
-            Debug.Log("Dashing backward");
+            // Debug.Log("Dashing backward");
             anim.SetTrigger(IsDashingBackwards);
             movement += (transform.forward * -1);
         }
@@ -335,7 +335,7 @@ public class CrabMovement : MonoBehaviour
         movement.Normalize();
         movement *= jumpForce;
         movement *= Time.deltaTime;
-        Debug.Log(movement);
+        // Debug.Log(movement);
         rb.AddForce(movement, ForceMode.Impulse);
         
         yield return new WaitForSeconds(actionInterval);
