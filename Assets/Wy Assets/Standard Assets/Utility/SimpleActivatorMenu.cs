@@ -1,6 +1,4 @@
-/*
 using System;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace UnityStandardAssets.Utility
@@ -38,4 +36,3 @@ namespace UnityStandardAssets.Utility
         }
     }
 }
-*/

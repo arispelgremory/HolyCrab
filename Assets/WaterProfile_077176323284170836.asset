@@ -19,8 +19,8 @@ MonoBehaviour:
   specColor: {r: 0.14150941, g: 0.13667007, b: 0.12215199, a: 1}
   smoothness: 0.7
   enableLightAbsorption: 1
-  depthColor: {r: 0.36992702, g: 0.4111141, b: 0.4811321, a: 0.85}
-  maxDepth: 10
+  depthColor: {r: 0.32840872, g: 0.4183224, b: 0.5660378, a: 0.85}
+  maxDepth: 3
   enableFoam: 0
   foamColor: {r: 1, g: 1, b: 1, a: 1}
   foamDistance: 1.2
