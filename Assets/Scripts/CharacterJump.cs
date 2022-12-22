@@ -13,13 +13,11 @@ public class CharacterJump : MonoBehaviour
     public float jumpLowMultiplier = 2f;
     
     bool isJumping = false;
-    // CrabMovement crabMovement;
     
     // Start is called before the first frame update
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        // crabMovement = GetComponent<CrabMovement>();
     }
 
     // Update is called once per frame
@@ -42,7 +40,6 @@ public class CharacterJump : MonoBehaviour
         if (collision.gameObject.tag == "Terrain")
         {
             isJumping = false;
-            // crabMovement.attackable = true;
         }
     }
 
@@ -52,8 +49,6 @@ public class CharacterJump : MonoBehaviour
         if (collision.gameObject.tag == "Terrain")
         {
             isJumping = true;
-            // Cannot attack while jumping
-            // crabMovement.attackable = false;
         }
     }
 }
