@@ -100,11 +100,15 @@ public class CrabMovement : MonoBehaviour
 
         attackable = (attackTimer >= attackCoolDownTime
                       && !isDashing
-                      && !isHeavyAttacking);
+                      && !isHeavyAttacking
+                      && !isJumping
+                      && isGrounded);
         heavyAttackable = (heavyAttackTimer >= heavyAttackCoolDownTime
                            && !isDashing
-                           && !isAttacking);
-        // Debug.Log("Dashable: " + dashable + " Attackable: " + attackable + " Heavy Attackable: " + heavyAttackable);
+                           && !isAttacking
+                           && !isJumping
+                           && isGrounded);
+        Debug.Log("Dashable: " + dashable + " Attackable: " + attackable + " Heavy Attackable: " + heavyAttackable);
         
         
         if (Input.GetButtonDown("Shift") && 
@@ -126,8 +130,10 @@ public class CrabMovement : MonoBehaviour
         if (
             Input.GetButtonDown("Fire1") && 
             attackTimer >= attackCoolDownTime && 
-            !isAttacking && 
-            !isJumping)
+            !isHeavyAttacking && 
+            !isJumping &&
+            isGrounded
+            )
         {
             // Attackable
             isAttacking = true;
@@ -138,8 +144,8 @@ public class CrabMovement : MonoBehaviour
             StartCoroutine(Attack());
         } else if (Input.GetButtonDown("Fire2") && 
             heavyAttackTimer >= heavyAttackCoolDownTime && 
-            !isHeavyAttacking && 
-            !isJumping)
+            !isAttacking && 
+            !isJumping && isGrounded)
         {
             // Heavy Attackable
             isHeavyAttacking = true;
