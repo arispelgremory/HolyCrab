@@ -113,7 +113,7 @@ public class CrabMovement : MonoBehaviour
                            && !isAttacking
                            && !isJumping
                            && isGrounded);
-        Debug.Log("Dashable: " + dashable + " Attackable: " + attackable + " Heavy Attackable: " + heavyAttackable);
+        // Debug.Log("Dashable: " + dashable + " Attackable: " + attackable + " Heavy Attackable: " + heavyAttackable);
         
         
         if (Input.GetButtonDown("Shift") && 

@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class EnemyMovement : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
     
     // Patrolling
@@ -22,6 +21,8 @@ public class EnemyMovement : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
     
+    public Transform targetTransform;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,18 +32,16 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        transform.LookAt(targetTransform);
+
+
     }
 
     private void Awake()
     {
-        player = GameObject.Find("PlayerObj").transform;
         agent = GetComponent<NavMeshAgent>();
     }
-
-    private void Patrolling()
-    {
-        
-    }
+    
     
 }

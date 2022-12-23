@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+
 public class FollowTarget : MonoBehaviour
 {
     public Transform target;
     Vector3 destination;
     NavMeshAgent agent;
     
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,4 +31,5 @@ public class FollowTarget : MonoBehaviour
             agent.destination = destination;
         }
     }
+
 }
