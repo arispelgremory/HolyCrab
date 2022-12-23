@@ -57,7 +57,7 @@ public class InGameUI : MonoBehaviour
         
         if(!CrabMovement.attackable && isCoolDown)
         {
-            normalAttack.fillAmount -= (1 / (normalAttackCDInSeconds + CrabMovement.actionInterval)) * Time.deltaTime;
+            normalAttack.fillAmount -= Time.deltaTime / normalAttackCDInSeconds;
         }
         
         if(normalAttack.fillAmount <= 0.01f)
@@ -78,7 +78,7 @@ public class InGameUI : MonoBehaviour
         
         if(!CrabMovement.heavyAttackable && isHeavyAttackCoolDown)
         {
-            heavyAttack.fillAmount -= (1 / (heavyAttackCDInSeconds + CrabMovement.actionInterval)) * Time.deltaTime;
+            heavyAttack.fillAmount -= Time.deltaTime / heavyAttackCDInSeconds;
         }
         
         if(heavyAttack.fillAmount <= 0.01f)
@@ -99,7 +99,7 @@ public class InGameUI : MonoBehaviour
 
         if (!CrabMovement.dashable && isDashCoolDown)
         {
-            dash.fillAmount -= 1 /  dashCDInSeconds * Time.deltaTime;
+            dash.fillAmount -= 1 / dashCDInSeconds * Time.deltaTime;
             if(dash.fillAmount <= 0.01f)
             {
                 dash.fillAmount = 0;

@@ -8,6 +8,7 @@ TagManager:
   - Enemies
   - AlliedBase
   - EnemyBase
+  - PlayerAttacker
   layers:
   - Default
   - TransparentFX

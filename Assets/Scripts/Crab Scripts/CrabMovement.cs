@@ -61,6 +61,8 @@ public class CrabMovement : MonoBehaviour
     public static bool dashable = true;
     public static float dashCooldownTime = 2.0f; // Dash cooldown time in seconds
 
+    [Header("Claw Collider")]
+    private GameObject clawCollider;
 
     // Input Settings
     private float horizontalInput;
@@ -82,6 +84,8 @@ public class CrabMovement : MonoBehaviour
         jumpTimer = jumpCoolDownTime;
         attackTimer = attackCoolDownTime;
         heavyAttackTimer = heavyAttackCoolDownTime;
+        
+        clawCollider = GameObject.FindWithTag("PlayerAttacker");
         
     }
 
@@ -185,6 +189,13 @@ public class CrabMovement : MonoBehaviour
             isMovingForward = verticalInput > 0;
             isMovingBackward = verticalInput < 0;
         }
+        else
+        {
+            anim.SetBool(IsForward, false);
+            anim.SetBool(IsBackward, false);
+            isMovingForward = false;
+            isMovingBackward = false;
+        }
 
         if (horizontalInput != 0 && !anim.GetBool(IsForward) && !anim.GetBool(IsBackward))
         {
@@ -197,24 +208,13 @@ public class CrabMovement : MonoBehaviour
         {
             isMovingLeft = horizontalInput < 0;
             isMovingRight = horizontalInput > 0;
-        }
-        
-        if (rb.velocity.z == 0 && verticalInput == 0)
-        {
-            anim.SetBool(IsForward, false);
-            anim.SetBool(IsBackward, false);
-            isMovingForward = false;
-            isMovingBackward = false;
-        }
-
-        if (rb.velocity.x == 0 && horizontalInput == 0)
-        {
+        } else {
             anim.SetBool(IsLeft, false);
             anim.SetBool(IsRight, false);
             isMovingLeft = false;
             isMovingRight = false;
         }
-
+        
     }
 
 
@@ -282,18 +282,6 @@ public class CrabMovement : MonoBehaviour
         movement *= dashForce;
         rb.drag = frictionDuringDash;
         rb.AddForce(movement, ForceMode.Impulse);
-        
-        
-        // Perform physics calculation and apply damage to any colliders within range
-        RaycastHit hit;
-        // if (Physics.Raycast(transform.position, transform.forward, out hit, range))
-        // {
-        //     if (hit.collider.CompareTag("Enemy"))
-        //     {
-        //         hit.collider.GetComponent<EnemyScript>().TakeDamage(damage);
-        //         hit.rigidbody.AddForce(transform.forward * 50f);
-        //     }
-        // }
 
         // Wait for attack animation to finish before allow to dash
         yield return new WaitForSeconds(actionInterval);
@@ -305,38 +293,21 @@ public class CrabMovement : MonoBehaviour
     {
         anim.SetTrigger(IsAttack);
         
-        // Perform physics calculation and apply damage to any colliders within range
-        RaycastHit hit;
-        // if (Physics.Raycast(transform.position, transform.forward, out hit, range))
-        // {
-        //     if (hit.collider.CompareTag("Enemy"))
-        //     {
-        //         hit.collider.GetComponent<EnemyScript>().TakeDamage(damage);
-        //         hit.rigidbody.AddForce(transform.forward * 50f);
-        //     }
-        // }
-
+        clawCollider.SetActive(true);
         // Wait for attack animation to finish before allow to attack
         yield return new WaitForSeconds(actionInterval);
+        clawCollider.SetActive(false);
         isAttacking = false;
     }
     
     IEnumerator HeavyAttack()
     {
         anim.SetTrigger(IsHeavyAttack);
-        // Perform physics calculation and apply damage to any colliders within range
-        RaycastHit hit;
-        // if (Physics.Raycast(transform.position, transform.forward, out hit, range))
-        // {
-        //     if (hit.collider.CompareTag("Enemy"))
-        //     {
-        //         hit.collider.GetComponent<EnemyScript>().TakeDamage(damage);
-        //         hit.rigidbody.AddForce(transform.forward * 50f);
-        //     }
-        // }
-
+        
+        clawCollider.SetActive(true);
         // Wait for attack animation to finish before allow to heavy attack
         yield return new WaitForSeconds(actionInterval);
+        clawCollider.SetActive(false);
         isHeavyAttacking = false;
     }
 

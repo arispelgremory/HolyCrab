@@ -23,6 +23,8 @@ public class EnemyMovement : MonoBehaviour
     
     public Transform targetTransform;
     
+    public bool hadTakenDamage = false;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,13 +37,31 @@ public class EnemyMovement : MonoBehaviour
 
         transform.LookAt(targetTransform);
 
+        if (hadTakenDamage)
+        {
+            Destroy(gameObject);
+        }
 
     }
+    
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "ClawCollider")
+        {
+            // Debug.Log("Kena Hit");
+            TakeDamage();
+        }
+    }
+
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
     }
     
+    public void TakeDamage()
+    {
+        hadTakenDamage = true;
+    }
     
 }
