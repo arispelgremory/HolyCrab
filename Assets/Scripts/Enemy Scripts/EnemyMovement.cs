@@ -11,6 +11,7 @@ public class EnemyMovement : MonoBehaviour
     private Transform target;
     public Transform enemyBase;
     public Transform alliedBase;
+    public Transform player;
     
     Vector3 destination;
 
@@ -22,6 +23,8 @@ public class EnemyMovement : MonoBehaviour
     private Animator anim;
     // Enemy's rigidbody
     private Rigidbody rb;
+    // Run away position
+    private Vector3 runAwayPos;
 
     // Start is called before the first frame update
     void Start()
@@ -36,32 +39,41 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         // If the enemy don't has a crab, go to the allied base
-        if (!hasCrab)
+        if (!hasCrab && hp > 0)
         {
+            // Debug.Log("Going to allied base");
             target = alliedBase;
             agent.SetDestination(alliedBase.position);
-        } else
+        } else if (hasCrab && hp > 0)
         {
+            // Debug.Log("Going to enemy base");
             target = enemyBase;
             agent.SetDestination(enemyBase.position);
         }
-        
+        else
+        {
+            // Debug.Log("Allied base Pos: " + alliedBase.position);
+            Debug.Log("Destination Pos: " + destination);
+            // Set destination to calculated run away position
+            destination = runAwayPos;
+            agent.destination = runAwayPos;
+        }
+
         transform.LookAt(target);
         AnimateMovement();
 
         if (!Object.ReferenceEquals(destination, null))
         {
             // Update destination if the target moves one unit
-            if (Vector3.Distance(destination, target.position) > 1.0f)
+            if (Vector3.Distance(destination, target.position) > 1.0f && hp > 0)
             {
                 destination = target.position;
                 agent.destination = destination;
             } 
         
             // If the target's unit is smaller than 1, slow down
-            if (Vector3.Distance(destination, target.position) < 1.0f)
+            if (Vector3.Distance(destination, target.position) < 1.0f && hp > 0)
             {
                 agent.speed = 5.0f;
             }
@@ -72,18 +84,21 @@ public class EnemyMovement : MonoBehaviour
     // Animate which direction to walk based on it's velocity
     public void AnimateMovement()
     {
-        anim.SetBool("IsWalk", true);
+        if (hp >= 1)
+        {
+            anim.SetBool("IsWalk", true);
+        }
     }
     
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "ClawCollider")
         {
-            // Debug.Log("Kena Hit");
+            Debug.Log("Kena Hit");
             TakeDamage();
         }
         
-        if (other.gameObject.name == "Crab Base")
+        if (other.gameObject.name == "Crab Base" && hp > 0)
         {
             agent.isStopped = true;
             if (agent.velocity != Vector3.zero)
@@ -95,7 +110,7 @@ public class EnemyMovement : MonoBehaviour
             StartCoroutine(EnemyTakingCrab());
         }
         
-        if (other.gameObject.name == "Enemy Tent")
+        if (other.gameObject.name == "Enemy Tent" && hp > 0)
         {
             agent.isStopped = true;
             if (agent.velocity != Vector3.zero)
@@ -125,6 +140,39 @@ public class EnemyMovement : MonoBehaviour
     public void TakeDamage()
     {
         hp--;
+        // Enemy's hp is 0, will run away from the player and if the enemy has a crab, will drop it
+        if (hp < 1)
+        {
+            // Pause to calculate the direction to run
+            agent.speed = 0;
+            // cancel walk animation
+            anim.SetBool("IsWalk", false);
+            StartCoroutine(EnemyDead());
+        }
+    }
+
+    IEnumerator EnemyDead()
+    {
+        Vector3 runAwayDirection = -(transform.position - player.transform.position);
+        runAwayDirection.y = 0; // Ignore y-axis
+        runAwayPos = transform.position + runAwayDirection.normalized * 50; // 50 units away from the player
+
+        Debug.Log("163: Run away pos: " + runAwayPos);
+
+        // Set destination to calculated run away position
+        destination = runAwayPos;
+        agent.destination = runAwayPos;
+        // Resume movement
+        anim.SetBool("IsDefeat", true);
+        agent.speed = 1000;
+        
+        // Wait for 0.5 second
+        yield return new WaitForSeconds(5.0f);
+            
+        // Destroy the enemy if ran away from the player after 5 seconds
+        Destroy(gameObject);
+        
+
     }
     
 }
