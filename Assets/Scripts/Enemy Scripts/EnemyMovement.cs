@@ -8,22 +8,7 @@ public class EnemyMovement : MonoBehaviour
     public NavMeshAgent agent;
     public LayerMask whatIsGround, whatIsPlayer;
     
-    // Patrolling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
-    
-    // Attacking
-    public float timeBetweenAttacks;
-    bool alreadyAttacked;
-    
-    // States
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
-    
     public Transform targetTransform;
-    
-    public bool hadTakenDamage = false;
 
     private int hp = 1;
     
