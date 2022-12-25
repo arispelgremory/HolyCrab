@@ -7,7 +7,9 @@ using UnityEngine;
 public class AttackScript : MonoBehaviour
 {
     public LayerMask enemyLayer; // The layer of the enemy objects
-
+    
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,9 @@ public class AttackScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        // TBD: check the collision object if it's c
+        
+        
         // Check if the collision is with an enemy object
         if (enemyLayer == (enemyLayer | (1 << collision.gameObject.layer)))
         {

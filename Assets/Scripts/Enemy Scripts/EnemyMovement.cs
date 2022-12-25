@@ -24,24 +24,40 @@ public class EnemyMovement : MonoBehaviour
     public Transform targetTransform;
     
     public bool hadTakenDamage = false;
+
+    private int hp = 1;
     
+    // Enemy Animation
+    private Animator anim;
+    // Enemy's rigidbody
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
         
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         transform.LookAt(targetTransform);
+        AnimateMovement();
 
-        if (hadTakenDamage)
+        if (hp < 1)
         {
             Destroy(gameObject);
         }
 
+    }
+    
+    // Animate which direction to walk based on it's velocity
+    public void AnimateMovement()
+    {
+        // anim.SetBool("IsWalk", true);
     }
     
     public void OnTriggerEnter(Collider other)
@@ -53,15 +69,9 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-
-    private void Awake()
-    {
-        agent = GetComponent<NavMeshAgent>();
-    }
-    
     public void TakeDamage()
     {
-        hadTakenDamage = true;
+        hp--;
     }
     
 }
