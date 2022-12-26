@@ -45,7 +45,6 @@ public class EnemyMovement : MonoBehaviour
         // If the enemy don't has a crab, go to the allied base
         if (!hasCrab && hp > 0)
         {
-            
             target = alliedBase;
             agent.SetDestination(alliedBase.position);
         } else if (hasCrab && hp > 0)
@@ -78,10 +77,10 @@ public class EnemyMovement : MonoBehaviour
     // Animate which direction to walk based on it's velocity
     public void AnimateMovement()
     {
-        if (hp >= 1 && agent.velocity.z > 0)
+        if (hp >= 1 && (agent.velocity.z > 0 || agent.velocity.x > 0))
         {
             anim.SetBool("IsWalk", true);
-        } else if (agent.velocity.z <= 0)
+        } else if (agent.velocity.z <= 0 && agent.velocity.x <= 0)
         {
             anim.SetBool("IsWalk", false);
         }
