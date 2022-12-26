@@ -4,14 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemies
-  - sittingpoint
-  - pickuppoint
-  - waypoint
-  - stealingpoint
   - Spawn
   - Terrain
   - UI
+  - Enemy
+  - GM
   layers:
   - Default
   - TransparentFX
