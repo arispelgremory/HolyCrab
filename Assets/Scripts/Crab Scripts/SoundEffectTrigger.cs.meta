@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 000e942097209494b9e80c33471e8f8f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - actionClip: {instanceID: 0}
+  - atkSE: {fileID: 8300000, guid: 262e601125506bd47a8c3f48898b7f0d, type: 3}
+  - hAtkSE: {fileID: 8300000, guid: 886ff6fa68ab4e747a451e23e76350ab, type: 3}
+  - dashSE: {fileID: 8300000, guid: 40a36f783f38b0f42b5b4444733f5bb4, type: 3}
+  - jumpSE: {fileID: 8300000, guid: 16484a4d411e2b14489246ed5361e741, type: 3}
+  - walkSE: {fileID: 8300000, guid: 15cee1c42bedfcb41abf5ce44e5b21e1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -14904,6 +14904,8 @@ GameObject:
   - component: {fileID: 1342524626132018280}
   - component: {fileID: 2664390534658935018}
   - component: {fileID: 2961100834733818982}
+  - component: {fileID: 7818227979629786988}
+  - component: {fileID: -3811910409875224802}
   m_Layer: 0
   m_Name: Normal Catcher
   m_TagString: Untagged
@@ -15058,6 +15060,37 @@ MonoBehaviour:
   movementEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7818227979629786988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7470046741573000219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47bfc315a4c8edd46843e275ab8b1032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 2664390534658935018}
+  enemyBase: {fileID: 7233463339384077798, guid: bb439e17ada90814e9e5e98b8f65054d,
+    type: 3}
+  alliedBase: {fileID: 7195198222067988229, guid: d1f6cfc4341444f4dad286a4abb308c4,
+    type: 3}
+  player: {fileID: 5407916730358692978, guid: ad5780cb37988c24dbd83a7cda622371, type: 3}
+--- !u!114 &-3811910409875224802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7470046741573000219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2046de6befa924310990abf978c1bcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 7195198222067988229, guid: d1f6cfc4341444f4dad286a4abb308c4, type: 3}
 --- !u!1 &7506130270093016150
 GameObject:
   m_ObjectHideFlags: 0
