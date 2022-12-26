@@ -19,6 +19,9 @@ public class EnemyMovement : MonoBehaviour
 
     private int hp = 1;
     
+    // Crab Amount
+    private InGameUI gameUI;
+    
     // Enemy Animation
     private Animator anim;
     // Enemy's rigidbody
@@ -32,6 +35,8 @@ public class EnemyMovement : MonoBehaviour
         
         agent = GetComponent<NavMeshAgent>();
         destination = agent.destination;
+
+        gameUI = InGameUI.Instance;
     }
 
     // Update is called once per frame
@@ -120,6 +125,8 @@ public class EnemyMovement : MonoBehaviour
         yield return new WaitForSeconds(2);
         anim.SetBool("IsWalk", true);
         agent.isStopped = false;
+        // Player's crab amount will decrease
+        gameUI.crabAmount--;
     }
 
     IEnumerator EnemyDroppingCrab()
@@ -127,6 +134,7 @@ public class EnemyMovement : MonoBehaviour
         yield return new WaitForSeconds(2);
         // Will destroy this AI after back to tent
         Destroy(gameObject);
+        
     }
 
     public void TakeDamage()
@@ -141,6 +149,12 @@ public class EnemyMovement : MonoBehaviour
 
     IEnumerator EnemyDead()
     {
+        // If enemy has crab, will drop it
+        if (hasCrab)
+        {
+            gameUI.crabAmount++;
+        }
+        
         // Pause to calculate the direction to run
         agent.speed = 0;
         // cancel walk animation
