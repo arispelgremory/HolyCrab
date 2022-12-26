@@ -73,9 +73,12 @@ public class EnemyMovement : MonoBehaviour
     // Animate which direction to walk based on it's velocity
     public void AnimateMovement()
     {
-        if (hp >= 1)
+        if (hp >= 1 && agent.velocity.z > 0)
         {
             anim.SetBool("IsWalk", true);
+        } else if (agent.velocity.z <= 0)
+        {
+            anim.SetBool("IsWalk", false);
         }
     }
     
