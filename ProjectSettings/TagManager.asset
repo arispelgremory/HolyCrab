@@ -9,11 +9,17 @@ TagManager:
   - UI
   - Enemy
   - GM
+  - stealingpoint
+  - Enemies
+  - sittingpoint
+  - pickuppoint
+  - Fire
+  - waypoint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

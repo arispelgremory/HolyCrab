@@ -1403,6 +1403,7 @@ GameObject:
   - component: {fileID: 6934674220395330785}
   - component: {fileID: 6102166570778905352}
   - component: {fileID: 6695247265292001018}
+  - component: {fileID: 588313952895288318}
   m_Layer: 0
   m_Name: Elite Catcher
   m_TagString: Enemy
@@ -1557,6 +1558,24 @@ MonoBehaviour:
   movementEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &588313952895288318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798543170761950933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47bfc315a4c8edd46843e275ab8b1032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 6102166570778905352}
+  enemyBase: {fileID: 833690611563846429, guid: b90cd6fc131b1d141b278307e20d22a4,
+    type: 3}
+  alliedBase: {fileID: 7195198222067988229, guid: d1f6cfc4341444f4dad286a4abb308c4,
+    type: 3}
+  player: {fileID: 5870173286405685122, guid: df189eaaf84102b4d872fb087d0f6589, type: 3}
 --- !u!1 &812650094526622683
 GameObject:
   m_ObjectHideFlags: 0

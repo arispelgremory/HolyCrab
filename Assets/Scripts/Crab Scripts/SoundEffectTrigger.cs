@@ -20,29 +20,29 @@ public class SoundEffectTrigger : MonoBehaviour
         audioSource.PlayOneShot(clip);
     }
 
-    private void Attack()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
+    // private void Attack()
+    // {
+    //     AudioClip clip = GetRandomClip();
+    //     audioSource.PlayOneShot(clip);
+    // }
 
-    private void HeavyAttack()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
+    // private void HeavyAttack()
+    // {
+    //     AudioClip clip = GetRandomClip();
+    //     audioSource.PlayOneShot(clip);
+    // }
 
-    private void DashOut()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
+    // private void DashOut()
+    // {
+    //     AudioClip clip = GetRandomClip();
+    //     audioSource.PlayOneShot(clip);
+    // }
 
-    private void DashBack()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
+    // private void DashBack()
+    // {
+    //     AudioClip clip = GetRandomClip();
+    //     audioSource.PlayOneShot(clip);
+    // }
 
     private AudioClip GetRandomClip()
     {
