@@ -16,10 +16,9 @@ public class InGameUI : MonoBehaviour
     [Header("Dash")] public Image dash;
     public float dashCDInSeconds;
     private float dashTimer = 0f;
-
-    // Shared variables
+    
     [Header("Crab Amount")] 
-    public int crabAmount;
+    [SerializeField] public int crabAmount;
     [SerializeField] private TextMeshProUGUI crabAmountText;
     // public Text crabAmountText;
     
@@ -32,9 +31,8 @@ public class InGameUI : MonoBehaviour
         normalAttack.fillAmount = 0;
         heavyAttack.fillAmount = 0;
         dash.fillAmount = 0;
+        
 
-        // Changing crab amount for other classes to access
-        Instance.crabAmount = 10;
     }
 
     // Update is called once per frame
