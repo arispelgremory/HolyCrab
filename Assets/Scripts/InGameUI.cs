@@ -20,11 +20,11 @@ public class InGameUI : MonoBehaviour
     // Shared variables
     [Header("Crab Amount")] 
     public int crabAmount;
-    public TextMeshProUGUI crabAmountText;
-
+    [SerializeField] private TextMeshProUGUI crabAmountText;
+    // public Text crabAmountText;
+    
     // Instance for other classes to access
     public static InGameUI Instance;
-
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +33,6 @@ public class InGameUI : MonoBehaviour
         heavyAttack.fillAmount = 0;
         dash.fillAmount = 0;
 
-        dashTimer = dashCDInSeconds;
-        attackTimer = normalAttackCDInSeconds;
-        heavyAttackTimer = heavyAttackCDInSeconds;
-
-        normalAttackCDInSeconds = CrabMovement.attackCoolDownTime;
-        heavyAttackCDInSeconds = CrabMovement.heavyAttackCoolDownTime;
-        dashCDInSeconds = CrabMovement.dashCooldownTime;
-        
         // Changing crab amount for other classes to access
         Instance.crabAmount = 10;
     }
@@ -56,13 +48,15 @@ public class InGameUI : MonoBehaviour
         HeavyAttack();
         Dash();
         
-        // Updating UI's text with crab amount in static instance.
+        
         crabAmountText.text = "x " + Instance.crabAmount.ToString();
     }
+    
 
     private void NormalAttack()
     {
         bool isCoolDown = attackTimer < normalAttackCDInSeconds;
+
         if (Input.GetButtonDown("Fire1") && !isCoolDown && CrabMovement.attackable)
         {
             normalAttack.fillAmount = 1;
@@ -127,5 +121,8 @@ public class InGameUI : MonoBehaviour
         {
             Instance = this;
         }
+        
+        crabAmountText = transform.Find("ScoreboardPanelUI").Find("ObjectiveUI").GetComponent<TextMeshProUGUI>();
+        
     }
 }

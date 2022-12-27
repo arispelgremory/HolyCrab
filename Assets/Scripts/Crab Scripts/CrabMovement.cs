@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
+
 public class CrabMovement : MonoBehaviour
 {
     // Animations
@@ -70,6 +71,11 @@ public class CrabMovement : MonoBehaviour
     
     private Camera m_Camera;
     [SerializeField] private MouseLook m_MouseLook;
+
+    [Header("Controlling Settings")] 
+    public float mouseSensitivity;
+    
+    private float rotationY = 0f;
     
     // Start is called before the first frame update
     void Start()
@@ -92,6 +98,10 @@ public class CrabMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Mouse rotate input
+        rotationY += Input.GetAxis("Mouse X") * mouseSensitivity;
+        rb.rotation = Quaternion.Euler(0, rotationY, 0);
+        // Debug.Log(rotationY);
 
         // Cannot dodge while attack
         // Jump dodge is ok
@@ -112,6 +122,7 @@ public class CrabMovement : MonoBehaviour
                       && !isHeavyAttacking
                       && !isJumping
                       && isGrounded);
+
         heavyAttackable = (heavyAttackTimer >= heavyAttackCoolDownTime
                            && !isDashing
                            && !isAttacking
