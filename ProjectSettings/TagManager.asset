@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Fire
   - Terrain
+  - Enemy
+  - Ocean
+  - Border
+  - HouseDeco
+  - Enemies
   layers:
   - Default
   - TransparentFX
