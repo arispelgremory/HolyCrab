@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
-
 public class UIManager : MonoBehaviour
 {
     private string levelToLoad;
@@ -47,7 +46,8 @@ public class UIManager : MonoBehaviour
 
     public void PlayButtonClicked()
     {
-        levelToLoad = "HolyCrab";
+        Debug.Log("Play!");
+        levelToLoad = "Level1";
         PlayButtonSound();
         fadeToBlackPanel.GetComponent<Animator>().SetTrigger("FadeToBlack");
         StartCoroutine(Wait());
@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
 
     public void OptionButtonClicked()
     {
+        Debug.Log("Option");
         levelToLoad = "OptionMenuScene";
         PlayButtonSound();
         StartCoroutine(Wait());
@@ -62,7 +63,7 @@ public class UIManager : MonoBehaviour
 
     public void QuitButtonClicked()
     {
-        levelToLoad = "";
+        Debug.Log("Quit Game");
         PlayButtonSound();
         isQuit = true;
         StartCoroutine(Wait());

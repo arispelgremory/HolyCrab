@@ -13,11 +13,5 @@ public class VolumeSlider : MonoBehaviour
     {
         SoundManager.Instance.ChangeMasterVolume(masVolSlider.value);
         masVolSlider.onValueChanged.AddListener(val => SoundManager.Instance.ChangeMasterVolume(val));
-
-        SoundManager.Instance.ChangeSEVolume(SEVolSlider.value);
-        SEVolSlider.onValueChanged.AddListener(val => SoundManager.Instance.ChangeSEVolume(val));
-
-        SoundManager.Instance.ChangeBGMVolume(BGMVolSlider.value);
-        BGMVolSlider.onValueChanged.AddListener(val => SoundManager.Instance.ChangeBGMVolume(val));
     }
 }
