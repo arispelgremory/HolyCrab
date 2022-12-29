@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
 public class CrabMovement : MonoBehaviour
 {
     // Animations
@@ -74,11 +76,16 @@ public class CrabMovement : MonoBehaviour
     private bool isAttackingCoroutine = false; // new flag to track whether the coroutine is currently running
     private bool isHeavyAttackingCoroutine = false; // new flag to track whether the coroutine is currently running
     
+    // Character Controller
+    private CharacterController controller;
+    
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        
         setNormalFriction();
     
         // World Settings
@@ -147,7 +154,6 @@ public class CrabMovement : MonoBehaviour
             attackable = false;
             heavyAttackable = false;
             attackTimer = 0.0f;
-            Debug.Log("0");
             StartCoroutine(Attack());
         } else if (Input.GetButtonDown("Fire2") && heavyAttackable)
         {
@@ -184,6 +190,11 @@ public class CrabMovement : MonoBehaviour
             anim.SetBool(IsBackward, verticalInput < 0);
             isMovingForward = verticalInput > 0;
             isMovingBackward = verticalInput < 0;
+            // If the player is moving backwards, set the rotation to the current rotation
+            if (verticalInput < 0)
+            {
+                controller.transform.rotation = transform.rotation;
+            }
         }
         else
         {
@@ -225,6 +236,7 @@ public class CrabMovement : MonoBehaviour
             
         } else if (verticalInput < 0)
         {
+            Debug.Log("walking backward");
             movement += (transform.forward * -1);
         }
         
@@ -240,7 +252,7 @@ public class CrabMovement : MonoBehaviour
         movement.Normalize();
         movement *= movingSpeed;
         movement *= Time.deltaTime;
-        rb.AddForce(movement, ForceMode.Acceleration);
+        controller.Move(movement * Time.deltaTime);
     }
 
     IEnumerator Dash()
@@ -277,7 +289,7 @@ public class CrabMovement : MonoBehaviour
         movement *= Time.deltaTime;
         movement *= dashForce;
         rb.drag = frictionDuringDash;
-        rb.AddForce(movement, ForceMode.Impulse);
+        controller.Move(movement * Time.deltaTime);
 
         // Wait for attack animation to finish before allow to dash
         yield return new WaitForSeconds(actionInterval);
@@ -316,31 +328,12 @@ public class CrabMovement : MonoBehaviour
         movement *= jumpForce;
         movement *= Time.deltaTime;
         // Debug.Log(movement);
-        rb.AddForce(movement, ForceMode.Impulse);
+        controller.Move(movement * Time.deltaTime);
         
         yield return new WaitForSeconds(actionInterval);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Terrain")
-        {
-            isGrounded = true;
-        }
-    }
 
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Terrain")
-        {
-            isGrounded = false;
-            isJumping = false;
-            jumpTimer = 0;
-        }
-    }
-    
-    
     void setNormalFriction()
     {
         rb.drag = friction;
