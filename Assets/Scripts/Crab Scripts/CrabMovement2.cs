@@ -35,7 +35,23 @@ public class CrabMovement2 : MonoBehaviour
     private static readonly string IsDashingBackwards = "IsDodgingBackwards";
     
     // Jump
+    [Header("Jump Settings")]
     [SerializeField] private float _jumpPower;
+    private float jumpTimer;
+    [SerializeField] private float _jumpCd;
+    
+    
+    // Dash
+    private float dashTimer;
+    [SerializeField] private float _dashCd;
+    
+    // Attack
+    private float attackTimer;
+    [SerializeField] private float _attackCd;
+    
+    // Heavy Attack
+    private float heavyAttackTimer;
+    [SerializeField] private float _heavyAttackCd;
     
     private void Awake()
     {
@@ -53,8 +69,11 @@ public class CrabMovement2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CoolDownProperties();
         GetInput();
         Animate();
+        // TBD: Add attack, dash & heavy attack.
+        
     }
 
     private void FixedUpdate()
@@ -63,6 +82,14 @@ public class CrabMovement2 : MonoBehaviour
         ApplyGravity();
         Jump();
         ApplyMovement();
+    }
+
+    private void CoolDownProperties()
+    {
+        jumpTimer += Time.deltaTime;
+        dashTimer += Time.deltaTime;
+        attackTimer += Time.deltaTime;
+        heavyAttackTimer += Time.deltaTime;
     }
 
     private void GetInput()
@@ -109,9 +136,11 @@ public class CrabMovement2 : MonoBehaviour
 
     public void Jump()
     {
-        if (!_controller.isGrounded || !jumpInput) return;
+        if (!_controller.isGrounded || !jumpInput || jumpTimer < _jumpCd) return;
 
         _velocity += _jumpPower;
+        // Reset Jump CD
+        jumpTimer = 0;
     }
 
     private void ApplyMovement()
