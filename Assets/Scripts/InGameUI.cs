@@ -52,12 +52,12 @@ public class InGameUI : MonoBehaviour
         heavyAttackTimer += Time.deltaTime;
         dashTimer += Time.deltaTime;
 
-        NormalAttack();
-        HeavyAttack();
-        Dash();
+        // NormalAttack();
+        // HeavyAttack();
+        // Dash();
         
         // Updating UI's text with crab amount in static instance.
-        crabAmountText.text = "x " + Instance.crabAmount.ToString();
+        // crabAmountText.text = "x " + Instance.crabAmount.ToString();
     }
 
     private void NormalAttack()

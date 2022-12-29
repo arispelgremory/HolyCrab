@@ -68,7 +68,7 @@ public class EnemyMovement : MonoBehaviour
             // If the target's unit is smaller than 1, slow down
             if (Vector3.Distance(destination, target.position) < 1.0f && hp > 0)
             {
-                agent.speed = 5.0f;
+                agent.speed = 15.0f;
             }
         }
         
