@@ -10,6 +10,7 @@ public class CrabMovement2 : MonoBehaviour
 {
     private CharacterController _controller;
     private Vector3 _moveDirection;
+    private Rigidbody _rb;
     
     [Header("UI Settings")]
     [SerializeField] private Image _normalAttackImage;
@@ -27,7 +28,7 @@ public class CrabMovement2 : MonoBehaviour
     // Gravity
     private float _gravity = -9.81f;
     [SerializeField] private float gravityMultiplier = 1f;
-    private float _velocity;
+    private float _velocity = 0.0f;
     
     // Animations
     private Animator _animator;
@@ -44,11 +45,14 @@ public class CrabMovement2 : MonoBehaviour
     
     
     // Dash
-    private float _dashTimer;
+    [Header("Dash Settings")]
     [SerializeField] private float _dashCd;
+    [SerializeField] private float _dashForce;
+    private float _dashTimer;
     private bool isDashing = false;
     
     // Attack
+    [Header("Attack Settings")]
     private float _attackTimer;
     [SerializeField] private float _attackCd;
     private bool isAttacking = false;
@@ -56,6 +60,7 @@ public class CrabMovement2 : MonoBehaviour
     private GameObject clawCollider;
     
     // Heavy Attack
+    [Header("Heavy Settings")]
     private float _heavyAttackTimer;
     [SerializeField] private float _heavyAttackCd;
     private bool isHeavyAttacking = false;
@@ -67,6 +72,8 @@ public class CrabMovement2 : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
+        
         clawCollider = GameObject.FindWithTag("PlayerAttacker");
     }
     
@@ -225,7 +232,8 @@ public class CrabMovement2 : MonoBehaviour
     IEnumerator PerformDash()
     {
         _animator.SetTrigger(IsDashing);
-        // TBD: Add Dash Movement
+        // TODO: Add Dash Movement
+        _rb.AddForce(((_moveDirection * _dashForce) * Time.deltaTime), ForceMode.Impulse);
         
         // UI CoolDown
         _dashImage.fillAmount = 1;
