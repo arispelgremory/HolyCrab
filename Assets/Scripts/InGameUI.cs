@@ -16,14 +16,15 @@ public class InGameUI : MonoBehaviour
     [Header("Dash")] public Image dash;
     public float dashCDInSeconds;
     private float dashTimer = 0f;
-    
+
+    // Shared variables
     [Header("Crab Amount")] 
-    [SerializeField] public int crabAmount;
-    [SerializeField] private TextMeshProUGUI crabAmountText;
-    // public Text crabAmountText;
-    
+    public int crabAmount;
+    public TextMeshProUGUI crabAmountText;
+
     // Instance for other classes to access
     public static InGameUI Instance;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +32,17 @@ public class InGameUI : MonoBehaviour
         normalAttack.fillAmount = 0;
         heavyAttack.fillAmount = 0;
         dash.fillAmount = 0;
-        
 
+        dashTimer = dashCDInSeconds;
+        attackTimer = normalAttackCDInSeconds;
+        heavyAttackTimer = heavyAttackCDInSeconds;
+
+        normalAttackCDInSeconds = CrabMovement.attackCoolDownTime;
+        heavyAttackCDInSeconds = CrabMovement.heavyAttackCoolDownTime;
+        dashCDInSeconds = CrabMovement.dashCooldownTime;
+        
+        // Changing crab amount for other classes to access
+        Instance.crabAmount = 10;
     }
 
     // Update is called once per frame
@@ -46,15 +56,13 @@ public class InGameUI : MonoBehaviour
         HeavyAttack();
         Dash();
         
-        
+        // Updating UI's text with crab amount in static instance.
         crabAmountText.text = "x " + Instance.crabAmount.ToString();
     }
-    
 
     private void NormalAttack()
     {
         bool isCoolDown = attackTimer < normalAttackCDInSeconds;
-
         if (Input.GetButtonDown("Fire1") && !isCoolDown && CrabMovement.attackable)
         {
             normalAttack.fillAmount = 1;
@@ -119,8 +127,5 @@ public class InGameUI : MonoBehaviour
         {
             Instance = this;
         }
-        
-        crabAmountText = transform.Find("ScoreboardPanelUI").Find("ObjectiveUI").GetComponent<TextMeshProUGUI>();
-        
     }
 }

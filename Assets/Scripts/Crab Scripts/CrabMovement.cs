@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-
 public class CrabMovement : MonoBehaviour
 {
     // Animations
@@ -71,11 +70,9 @@ public class CrabMovement : MonoBehaviour
     
     private Camera m_Camera;
     [SerializeField] private MouseLook m_MouseLook;
-
-    [Header("Controlling Settings")] 
-    public float mouseSensitivity;
     
-    private float rotationY = 0f;
+    private bool isAttackingCoroutine = false; // new flag to track whether the coroutine is currently running
+    private bool isHeavyAttackingCoroutine = false; // new flag to track whether the coroutine is currently running
     
     // Start is called before the first frame update
     void Start()
@@ -98,10 +95,6 @@ public class CrabMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Mouse rotate input
-        rotationY += Input.GetAxis("Mouse X") * mouseSensitivity;
-        rb.rotation = Quaternion.Euler(0, rotationY, 0);
-        // Debug.Log(rotationY);
 
         // Cannot dodge while attack
         // Jump dodge is ok
@@ -122,7 +115,6 @@ public class CrabMovement : MonoBehaviour
                       && !isHeavyAttacking
                       && !isJumping
                       && isGrounded);
-
         heavyAttackable = (heavyAttackTimer >= heavyAttackCoolDownTime
                            && !isDashing
                            && !isAttacking
@@ -147,13 +139,7 @@ public class CrabMovement : MonoBehaviour
             StartCoroutine(Dash());
         }
 
-        if (
-            Input.GetButtonDown("Fire1") && 
-            attackTimer >= attackCoolDownTime && 
-            !isHeavyAttacking && 
-            !isJumping &&
-            isGrounded
-            )
+        if (Input.GetButtonDown("Fire1") &&  attackable)
         {
             // Attackable
             isAttacking = true;
@@ -161,11 +147,9 @@ public class CrabMovement : MonoBehaviour
             attackable = false;
             heavyAttackable = false;
             attackTimer = 0.0f;
+            Debug.Log("0");
             StartCoroutine(Attack());
-        } else if (Input.GetButtonDown("Fire2") && 
-            heavyAttackTimer >= heavyAttackCoolDownTime && 
-            !isAttacking && 
-            !isJumping && isGrounded)
+        } else if (Input.GetButtonDown("Fire2") && heavyAttackable)
         {
             // Heavy Attackable
             isHeavyAttacking = true;
@@ -186,6 +170,7 @@ public class CrabMovement : MonoBehaviour
             heavyAttackable = false;
             StartCoroutine(Jump());
         }
+        
 
         // Movement
         // Check if the player is pressing the button
@@ -302,14 +287,16 @@ public class CrabMovement : MonoBehaviour
     
     IEnumerator Attack()
     {
+        
         anim.SetTrigger(IsAttack);
         
-        clawCollider.SetActive(true);
+        // clawCollider.SetActive(true);
         // Wait for attack animation to finish before allow to attack
         yield return new WaitForSeconds(actionInterval);
-        clawCollider.SetActive(false);
+        // clawCollider.SetActive(false);
         isAttacking = false;
     }
+    
     
     IEnumerator HeavyAttack()
     {
