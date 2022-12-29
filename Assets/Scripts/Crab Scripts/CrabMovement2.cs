@@ -42,16 +42,21 @@ public class CrabMovement2 : MonoBehaviour
     
     
     // Dash
-    private float dashTimer;
+    private float _dashTimer;
     [SerializeField] private float _dashCd;
+    private bool isDashing = false;
     
     // Attack
-    private float attackTimer;
+    private float _attackTimer;
     [SerializeField] private float _attackCd;
+    private bool isAttacking = false;
+    [Header("Claw Collider")]
+    private GameObject clawCollider;
     
     // Heavy Attack
-    private float heavyAttackTimer;
+    private float _heavyAttackTimer;
     [SerializeField] private float _heavyAttackCd;
+    private bool isHeavyAttacking = false;
     
     private void Awake()
     {
@@ -71,9 +76,9 @@ public class CrabMovement2 : MonoBehaviour
     {
         CoolDownProperties();
         GetInput();
-        Animate();
-        // TBD: Add attack, dash & heavy attack.
-        
+        AnimatePlayerMovement();
+        // Reset Input to avoid multiple inputs (NOT WORKING)
+        ResetInput();
     }
 
     private void FixedUpdate()
@@ -81,15 +86,18 @@ public class CrabMovement2 : MonoBehaviour
         CalculateMovement();
         ApplyGravity();
         Jump();
+        Attack();
+        HeavyAttack();
+        Dash();
         ApplyMovement();
     }
 
     private void CoolDownProperties()
     {
         jumpTimer += Time.deltaTime;
-        dashTimer += Time.deltaTime;
-        attackTimer += Time.deltaTime;
-        heavyAttackTimer += Time.deltaTime;
+        _dashTimer += Time.deltaTime;
+        _attackTimer += Time.deltaTime;
+        _heavyAttackTimer += Time.deltaTime;
     }
 
     private void GetInput()
@@ -98,9 +106,19 @@ public class CrabMovement2 : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         jumpInput = Input.GetKeyDown(KeyCode.Space);
+        isAttacking = Input.GetMouseButtonDown(0);
+        isHeavyAttacking = Input.GetMouseButtonDown(1);
+        isDashing = Input.GetKeyDown(KeyCode.LeftShift);
     }
 
-    private void Animate()
+    private void ResetInput()
+    {
+        jumpInput = false;
+        isAttacking = false;
+        isHeavyAttacking = false;
+    }
+
+    private void AnimatePlayerMovement()
     {
         // Check if the player is moving
         if (verticalInput != 0 || horizontalInput != 0)
@@ -134,7 +152,7 @@ public class CrabMovement2 : MonoBehaviour
         _moveDirection.y = _velocity;
     }
 
-    public void Jump()
+    private void Jump()
     {
         if (!_controller.isGrounded || !jumpInput || jumpTimer < _jumpCd) return;
 
@@ -146,6 +164,55 @@ public class CrabMovement2 : MonoBehaviour
     private void ApplyMovement()
     {
         _controller.Move(_moveDirection * Time.deltaTime);
+    }
+    
+    private void Attack()
+    {
+        if ((_attackTimer < _attackCd) || isDashing || isHeavyAttacking || !isAttacking || !_controller.isGrounded) return;
+        StartCoroutine(PerformAttack());
+    }
+
+    IEnumerator PerformAttack()
+    {
+        _animator.SetTrigger(IsAttack);
+        clawCollider.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        clawCollider.SetActive(false);
+        isAttacking = false;
+    }
+    
+    private void HeavyAttack()
+    {
+        if ((_heavyAttackTimer < _heavyAttackCd) || isDashing || !isHeavyAttacking || isAttacking || !_controller.isGrounded) return;
+        
+        _heavyAttackTimer = 0;
+        StartCoroutine(PerformHeavyAttack());
+    }
+
+    IEnumerator PerformHeavyAttack()
+    {
+        _animator.SetTrigger(IsHeavyAttack);
+        clawCollider.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        clawCollider.SetActive(false);
+        isHeavyAttacking = false;
+    }
+    
+    private void Dash()
+    {
+        if ((_heavyAttackTimer < _heavyAttackCd) || !isDashing || isHeavyAttacking || !isAttacking) return;
+        
+        _dashTimer = 0;
+        StartCoroutine(PerformDash());
+    }
+
+    IEnumerator PerformDash()
+    {
+        _animator.SetTrigger(IsDashing);
+        // TBD: Add Dash Movement
+        
+        yield return new WaitForSeconds(0.5f);
+        isDashing = false;
     }
     
 }

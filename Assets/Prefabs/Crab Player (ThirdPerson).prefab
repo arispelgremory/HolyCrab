@@ -843,9 +843,7 @@ GameObject:
   - component: {fileID: 7204825913241108341}
   - component: {fileID: 3634424216764870545}
   - component: {fileID: 886827674625195452}
-  - component: {fileID: 8776198270064729371}
   - component: {fileID: 8395923081294410878}
-  - component: {fileID: 3848539852040467177}
   - component: {fileID: 2353107179548810564}
   - component: {fileID: 3642186686012670187}
   - component: {fileID: 50683638143530374}
@@ -909,25 +907,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8776198270064729371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3981495557291050418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c66705cc72c5929468021d3fbd3868e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  friction: 1
-  velocityThreshold: 0.1
-  movingSpeed: 500
-  jumpForce: 100
-  frictionDuringDash: 5
-  dashForce: 2
-  m_MouseLook: {fileID: 0}
 --- !u!82 &8395923081294410878
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1024,23 +1003,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3848539852040467177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3981495557291050418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccf4363c2f90ad4c8971cb240ffeac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpForce: 2
-  jumpTime: 0.5
-  jumpDelay: 0.5
-  jumpFallMultiplier: 2.5
-  jumpLowMultiplier: 2
 --- !u!114 &2353107179548810564
 MonoBehaviour:
   m_ObjectHideFlags: 0
