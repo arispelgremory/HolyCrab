@@ -858,7 +858,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GUI_27
+      name: Panel
       rect:
         serializedVersion: 2
         x: 748
@@ -1362,7 +1362,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GUI_58
+      name: Banner
       rect:
         serializedVersion: 2
         x: 782
@@ -1631,9 +1631,7 @@ TextureImporter:
       GUI_8: 21300016
       GUI_52: 21300090
       GUI_10: 21300020
-      GUI_58: 21300102
       GUI_31: 21300062
-      GUI_27: 21300054
       GUI_60: 21300106
       GUI_28: 21300056
       GUI_5: 21300010
@@ -1641,8 +1639,8 @@ TextureImporter:
       GUI_61: 21300108
       GUI_42: 21300074
       GUI_32: 21300064
-      Play: 21300066
       Setting: 21300076
+      Play: 21300066
       GUI_19: 21300038
       GUI_53: 21300092
       GUI_29: 21300058
@@ -1662,6 +1660,8 @@ TextureImporter:
       GUI_48: 21300086
       Button: 21300014
       GUI_65: 21300116
+      Panel: 21300054
+      Banner: 21300102
       GUI_25: 21300050
       GUI_18: 21300036
       GUI_64: 21300114

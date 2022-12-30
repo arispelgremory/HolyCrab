@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("Play!");
         levelToLoad = "Level1";
         PlayButtonSound();
-        fadeToBlackPanel.GetComponent<Animator>().SetTrigger("FadeToBlack");
+        // fadeToBlackPanel.GetComponent<Animator>().SetTrigger("FadeToBlack");
         StartCoroutine(Wait());
     }
 

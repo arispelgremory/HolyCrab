@@ -232,8 +232,12 @@ public class CrabMovement2 : MonoBehaviour
     IEnumerator PerformDash()
     {
         _animator.SetTrigger(IsDashing);
-        // TODO: Add Dash Movement
-        _rb.AddForce(((_moveDirection * _dashForce) * Time.deltaTime), ForceMode.Impulse);
+        // Dash Movements
+        Vector3 impact = Vector3.zero;
+        impact.Normalize();
+        impact += _moveDirection * _dashForce;
+        
+        _controller.Move(impact * Time.deltaTime);
         
         // UI CoolDown
         _dashImage.fillAmount = 1;

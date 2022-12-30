@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 886827674625195452, guid: 7ba8fc0e553fc834bba0ed1c569aac12,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 3642186686012670187, guid: 7ba8fc0e553fc834bba0ed1c569aac12,
         type: 3}
       propertyPath: m_Height
@@ -30,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 3981495557291050418, guid: 7ba8fc0e553fc834bba0ed1c569aac12,
         type: 3}
       propertyPath: m_Name
-      value: Crab Player (ThirdPerson)
+      value: Tik JoeCrab Player (ThirdPerson)
       objectReference: {fileID: 0}
     - target: {fileID: 4390814989976768024, guid: 7ba8fc0e553fc834bba0ed1c569aac12,
         type: 3}
@@ -144,7 +149,7 @@ MonoBehaviour:
   _jumpPower: 5
   _jumpCd: 1
   _dashCd: 2
-  _dashForce: 10
+  _dashForce: 100
   _attackCd: 1.5
   _heavyAttackCd: 5
   _actionDelay: 0.5
