@@ -4,13 +4,18 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Terrain
+  - Enemies
+  - AlliedBase
+  - EnemyBase
+  - PlayerAttacker
+  - LevelUpItem
   - Fire
   - Terrain
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
   - Water
   - UI
   - 

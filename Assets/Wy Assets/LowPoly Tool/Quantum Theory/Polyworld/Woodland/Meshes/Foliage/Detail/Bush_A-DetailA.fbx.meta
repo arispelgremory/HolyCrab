@@ -1,7 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/NF Assets/Player/TinyCrab/scene.fbx.meta
+guid: bc747e865c9931a4e8b1bd2bd447a8ba
+========
 guid: fdf12940c3a10fa46b93ac17aafb978c
 timeCreated: 1458137311
 licenseType: Store
+>>>>>>>> main:Assets/Wy Assets/LowPoly Tool/Quantum Theory/Polyworld/Woodland/Meshes/Foliage/Detail/Bush_A-DetailA.fbx.meta
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
