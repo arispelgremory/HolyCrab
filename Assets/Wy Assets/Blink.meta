@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 3301a9a85a7ba1045acb94813c43e3b1
+<<<<<<<< HEAD:Assets/Kevin Iglesias.meta
+guid: 0bef9427f487048469c4a44126094d40
+========
+guid: 2868f21334797f24e9f525ba1652c9de
+>>>>>>>> main:Assets/Wy Assets/Blink.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -10,15 +10,16 @@ TagManager:
   - EnemyBase
   - PlayerAttacker
   - LevelUpItem
+  - Fire
+  - Terrain
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
   - Water
   - UI
-  - Enemy
-  - Terrain
+  - 
+  - 
   - 
   - 
   - 
