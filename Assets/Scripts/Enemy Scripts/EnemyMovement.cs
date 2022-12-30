@@ -4,43 +4,44 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+
 public class EnemyMovement : MonoBehaviour
 {
     public NavMeshAgent agent;
 
-    private Transform target;
+    protected Transform target;
     public Transform enemyBase;
     public Transform alliedBase;
     public Transform player;
     
-    Vector3 destination;
+    protected Vector3 destination;
 
-    private bool hasCrab = false;
+    protected bool hasCrab = false;
 
-    private int hp = 1;
+    protected int hp = 1;
     
     // Crab Amount
-    private InGameUI gameUI;
+    protected InGameUI gameUI;
     
     // Enemy Animation
-    private Animator anim;
+    protected Animator anim;
     // Enemy's rigidbody
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        
         agent = GetComponent<NavMeshAgent>();
+        
         destination = agent.destination;
 
         gameUI = InGameUI.Instance;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // If the enemy don't has a crab, go to the allied base
         if (!hasCrab && hp > 0)
@@ -75,7 +76,7 @@ public class EnemyMovement : MonoBehaviour
     }
     
     // Animate which direction to walk based on it's velocity
-    public void AnimateMovement()
+    protected void AnimateMovement()
     {
         if (hp >= 1 && (agent.velocity.z > 0 || agent.velocity.x > 0))
         {
@@ -86,7 +87,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
     
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "ClawCollider")
         {
@@ -148,6 +149,7 @@ public class EnemyMovement : MonoBehaviour
 
     IEnumerator EnemyDead()
     {
+        Debug.Log("Enemy Dead");
         // If enemy has crab, will drop it
         if (hasCrab)
         {

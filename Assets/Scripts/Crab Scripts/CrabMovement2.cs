@@ -222,7 +222,7 @@ public class CrabMovement2 : MonoBehaviour
     
     private void Dash()
     {
-        if ((_dashTimer < _dashCd) || !isDashing || isHeavyAttacking || isAttacking) return;
+        if ((_dashTimer < _dashCd) || !isDashing || isHeavyAttacking || isAttacking || (horizontalInput == 0 && verticalInput == 0)) return;
         
         _dashTimer = 0;
         
@@ -232,6 +232,10 @@ public class CrabMovement2 : MonoBehaviour
     IEnumerator PerformDash()
     {
         _animator.SetTrigger(IsDashing);
+        // UI CoolDown
+        _dashImage.fillAmount = 1;
+        
+        yield return new WaitForSeconds(0.25f);
         // Dash Movements
         Vector3 impact = Vector3.zero;
         impact.Normalize();
@@ -239,10 +243,7 @@ public class CrabMovement2 : MonoBehaviour
         
         _controller.Move(impact * Time.deltaTime);
         
-        // UI CoolDown
-        _dashImage.fillAmount = 1;
-        
-        yield return new WaitForSeconds(_actionDelay);
+        yield return new WaitForSeconds(_actionDelay - 0.25f);
         isDashing = false;
     }
 
