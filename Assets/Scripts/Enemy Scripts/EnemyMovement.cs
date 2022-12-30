@@ -20,6 +20,8 @@ public class EnemyMovement : MonoBehaviour
 
     protected int hp = 1;
     
+    [SerializeField] protected float _movementSpeed = 5;
+    
     // Crab Amount
     protected InGameUI gameUI;
     
@@ -27,6 +29,9 @@ public class EnemyMovement : MonoBehaviour
     protected Animator anim;
     // Enemy's rigidbody
     protected Rigidbody rb;
+    
+    // Enemy's XP
+    protected int xp;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +42,10 @@ public class EnemyMovement : MonoBehaviour
         
         destination = agent.destination;
 
+        // Default enemy is 5%
+        xp = 5;
+
+        agent.speed = _movementSpeed;
         gameUI = InGameUI.Instance;
     }
 
@@ -78,20 +87,18 @@ public class EnemyMovement : MonoBehaviour
     // Animate which direction to walk based on it's velocity
     protected void AnimateMovement()
     {
-        if (hp >= 1 && (agent.velocity.z > 0 || agent.velocity.x > 0))
-        {
-            anim.SetBool("IsWalk", true);
-        } else if (agent.velocity.z <= 0 && agent.velocity.x <= 0)
+        if ((agent.velocity.z == 0 && agent.velocity.x == 0) || hp < 1)
         {
             anim.SetBool("IsWalk", false);
+            return;
         }
+        anim.SetBool("IsWalk", true);
     }
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "ClawCollider")
         {
-            Debug.Log("Kena Hit");
             TakeDamage();
         }
         
@@ -149,7 +156,6 @@ public class EnemyMovement : MonoBehaviour
 
     IEnumerator EnemyDead()
     {
-        Debug.Log("Enemy Dead");
         // If enemy has crab, will drop it
         if (hasCrab)
         {
@@ -161,6 +167,10 @@ public class EnemyMovement : MonoBehaviour
         // cancel walk animation
         anim.SetBool("IsWalk", false);
         anim.SetBool("IsDefeat", true);
+        
+        // Add player's FeverTime XP
+        gameUI.SetSliderValue(xp);
+        
         // Wait for 0.5 second
         yield return new WaitForSeconds(2.5f);
         // Destroy the enemy if ran away from the player about 50 units

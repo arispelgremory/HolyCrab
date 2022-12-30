@@ -17,6 +17,9 @@ public class WebCatcherMovement : EnemyMovement
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         
+        // Default enemy is 5%
+        xp = 10;
+        
         destination = agent.destination;
         gameUI = InGameUI.Instance;
     }
@@ -58,6 +61,7 @@ public class WebCatcherMovement : EnemyMovement
     {
         // Move Animation from parent class
         base.AnimateMovement();
+        
     }
 
     IEnumerator CatcherAttack()
@@ -78,7 +82,7 @@ public class WebCatcherMovement : EnemyMovement
         yield return new WaitForSeconds(_actionIntervals);
         _isAttacking = false;
         agent.isStopped = false;
-        agent.speed = 3.5f;
+        agent.speed = _movementSpeed;
     }
 
 }
