@@ -73,6 +73,7 @@ public class InGameUI : MonoBehaviour
     
     public void SetSliderValue(float value)
     {
+        Debug.Log("XP added:" + value);
         slider.value += (value / PlayerManager.maxSliderValue) * PlayerManager.valueCountMultiplier;
     }
     

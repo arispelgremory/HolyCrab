@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -56,6 +57,8 @@ public class CrabMovement2 : MonoBehaviour
     private float _attackTimer;
     [SerializeField] private float _attackCd;
     private bool isAttacking = false;
+    
+    
     [Header("Claw Collider")]
     private GameObject clawCollider;
     
@@ -67,6 +70,11 @@ public class CrabMovement2 : MonoBehaviour
     
     [Header("Action Delays Settings")]
     [SerializeField] private float _actionDelay;
+    
+    // Stun
+    [Header("Stun Settings")]
+    [SerializeField] private float _stunTime;
+    private bool _isStunned = false;
     
     private void Awake()
     {
@@ -108,7 +116,16 @@ public class CrabMovement2 : MonoBehaviour
         
         
         // Reset Input to avoid multiple inputs (NOT WORKING)
-        // ResetInput();
+        ResetInput();
+    }
+
+    private void ResetInput()
+    {
+        
+        jumpInput = false;
+        isAttacking = false;
+        isHeavyAttacking = false;
+        isDashing = false;
     }
 
     private void CoolDownProperties()
@@ -121,14 +138,18 @@ public class CrabMovement2 : MonoBehaviour
 
     private void GetInput()
     {
-        // Check if the player is pressing the button
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        jumpInput = Input.GetKeyDown(KeyCode.Space);
+        // If stunned, do not allow any input
+        if (!_isStunned)
+        {
+            // Check if the player is pressing the button
+            horizontalInput = Input.GetAxis("Horizontal");
+            verticalInput = Input.GetAxis("Vertical");
+            jumpInput = Input.GetKeyDown(KeyCode.Space);
 
-        isAttacking = (Input.GetKeyDown(KeyCode.Mouse0) && _attackTimer > _attackCd);
-        isHeavyAttacking = Input.GetKeyDown(KeyCode.Mouse1) && _heavyAttackTimer > _heavyAttackCd;
-        isDashing = Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer > _dashCd;
+            isAttacking = (Input.GetKeyDown(KeyCode.Mouse0) && _attackTimer > _attackCd);
+            isHeavyAttacking = Input.GetKeyDown(KeyCode.Mouse1) && _heavyAttackTimer > _heavyAttackCd;
+            isDashing = Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer > _dashCd;
+        }
 
     }
 
@@ -149,6 +170,13 @@ public class CrabMovement2 : MonoBehaviour
     {
         _moveDirection = new Vector3(horizontalInput, 0, verticalInput);
         _moveDirection *= _moveSpeed;
+
+        // If stunned, do not allow any movement
+        if (_isStunned)
+        {
+            _moveDirection = Vector3.zero;
+        }
+        
         _moveDirection = transform.TransformDirection(_moveDirection);
     }
 
@@ -300,5 +328,27 @@ public class CrabMovement2 : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("EnemyAttacker") && !_isStunned)
+        {
+            // Disable the claw collider when stunned
+            clawCollider.SetActive(false);
+            
+            _isStunned = true;
+            _animator.SetBool("IsStunned", true);
+            StartCoroutine(Stun());
+        }
+    }
+
+    IEnumerator Stun()
+    {
+        // Stop down player
+        _velocity = 0.0f;
+        
+        yield return new WaitForSeconds(_stunTime);
+        _animator.SetBool("IsStunned", false);
+        _isStunned = false;
+    }
     
 }

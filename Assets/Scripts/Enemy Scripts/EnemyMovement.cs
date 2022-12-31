@@ -154,7 +154,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    IEnumerator EnemyDead()
+    protected IEnumerator EnemyDead()
     {
         // If enemy has crab, will drop it
         if (hasCrab)
