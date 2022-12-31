@@ -22,7 +22,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         // Locks the cursor
         Cursor.lockState = CursorLockMode.Locked;
-        
+
         vCam = GetComponentInChildren<CinemachineVirtualCamera>();
         hipFov = vCam.m_Lens.FieldOfView;
     }
