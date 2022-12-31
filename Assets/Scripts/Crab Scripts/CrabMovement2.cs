@@ -9,6 +9,9 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class CrabMovement2 : MonoBehaviour
 {
+    // Game UI stuffs
+    protected InGameUI gameUI;
+    
     private CharacterController _controller;
     private Vector3 _moveDirection;
     private Rigidbody _rb;
@@ -20,6 +23,7 @@ public class CrabMovement2 : MonoBehaviour
     
     [Header("Character Movement")]
     [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _moveSpeedMultipler = 1.0f;
 
     // Input Settings
     private float horizontalInput;
@@ -43,11 +47,13 @@ public class CrabMovement2 : MonoBehaviour
     [SerializeField] private float _jumpPower;
     private float jumpTimer;
     [SerializeField] private float _jumpCd;
+    [SerializeField] private float _jumpCDMultiplier = 1.0f;
     
     
     // Dash
     [Header("Dash Settings")]
     [SerializeField] private float _dashCd;
+    [SerializeField] private float _dashCDMultiplier = 1.0f;
     [SerializeField] private float _dashForce;
     private float _dashTimer;
     private bool isDashing = false;
@@ -56,6 +62,7 @@ public class CrabMovement2 : MonoBehaviour
     [Header("Attack Settings")]
     private float _attackTimer;
     [SerializeField] private float _attackCd;
+    [SerializeField] private float _attackCDMultiplier = 1.0f;
     private bool isAttacking = false;
     
     
@@ -66,6 +73,7 @@ public class CrabMovement2 : MonoBehaviour
     [Header("Heavy Settings")]
     private float _heavyAttackTimer;
     [SerializeField] private float _heavyAttackCd;
+    [SerializeField] private float _heavyAttackCDMultiplier = 1.0f;
     private bool isHeavyAttacking = false;
     
     [Header("Action Delays Settings")]
@@ -89,6 +97,8 @@ public class CrabMovement2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameUI = InGameUI.Instance;
+        
         _attackTimer = _attackCd;
         _heavyAttackTimer = _heavyAttackCd;
         _dashTimer = _dashCd;
@@ -104,6 +114,7 @@ public class CrabMovement2 : MonoBehaviour
     {
         CoolDownProperties();
         GetInput();
+        FeverTimeBuffs();
         AnimatePlayerMovement();
         Jump();
         Attack();
@@ -115,7 +126,7 @@ public class CrabMovement2 : MonoBehaviour
         UpdateUI();
         
         
-        // Reset Input to avoid multiple inputs (NOT WORKING)
+        // Reset Input to avoid multiple inputs
         ResetInput();
     }
 
@@ -128,6 +139,27 @@ public class CrabMovement2 : MonoBehaviour
         isDashing = false;
     }
 
+    private void FeverTimeBuffs()
+    {
+        if (gameUI.isFeverTime)
+        {
+            _jumpCDMultiplier = 0.5f;
+            _dashCDMultiplier = 0.5f;
+            _attackCDMultiplier = 0.5f;
+            _heavyAttackCDMultiplier = 0.5f;
+            _moveSpeedMultipler = 2.0f;
+        }
+        else
+        {
+            _jumpCDMultiplier = 1.0f;
+            _dashCDMultiplier = 1.0f;
+            _attackCDMultiplier = 1.0f;
+            _heavyAttackCDMultiplier = 1.0f;
+            _moveSpeedMultipler = 1.0f;
+        }
+        
+    }
+    
     private void CoolDownProperties()
     {
         jumpTimer += Time.deltaTime;
@@ -146,9 +178,9 @@ public class CrabMovement2 : MonoBehaviour
             verticalInput = Input.GetAxis("Vertical");
             jumpInput = Input.GetKeyDown(KeyCode.Space);
 
-            isAttacking = (Input.GetKeyDown(KeyCode.Mouse0) && _attackTimer > _attackCd);
-            isHeavyAttacking = Input.GetKeyDown(KeyCode.Mouse1) && _heavyAttackTimer > _heavyAttackCd;
-            isDashing = Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer > _dashCd;
+            isAttacking = (Input.GetKeyDown(KeyCode.Mouse0) && _attackTimer > (_attackCd * _attackCDMultiplier));
+            isHeavyAttacking = Input.GetKeyDown(KeyCode.Mouse1) && _heavyAttackTimer > (_heavyAttackCd * _heavyAttackCDMultiplier);
+            isDashing = Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer > (_dashCd * _dashCDMultiplier);
         }
 
     }
@@ -169,7 +201,7 @@ public class CrabMovement2 : MonoBehaviour
     private void CalculateMovement()
     {
         _moveDirection = new Vector3(horizontalInput, 0, verticalInput);
-        _moveDirection *= _moveSpeed;
+        _moveDirection *= (_moveSpeed * _moveSpeedMultipler);
 
         // If stunned, do not allow any movement
         if (_isStunned)
@@ -196,7 +228,7 @@ public class CrabMovement2 : MonoBehaviour
 
     private void Jump()
     {
-        if (!_controller.isGrounded || !jumpInput || jumpTimer < _jumpCd) return;
+        if (!_controller.isGrounded || !jumpInput || jumpTimer < (_jumpCd * _jumpCDMultiplier)) return;
 
         _velocity += _jumpPower;
         // Reset Jump CD
@@ -210,7 +242,7 @@ public class CrabMovement2 : MonoBehaviour
     
     private void Attack()
     {
-        if ((_attackTimer <= _attackCd) || isDashing || isHeavyAttacking || !isAttacking || !_controller.isGrounded) return;
+        if ((_attackTimer <= (_attackCd * _attackCDMultiplier)) || isDashing || isHeavyAttacking || !isAttacking || !_controller.isGrounded) return;
         
         _attackTimer = 0;
         
@@ -226,13 +258,13 @@ public class CrabMovement2 : MonoBehaviour
         clawCollider.SetActive(true);
         yield return new WaitForSeconds(_actionDelay);
         clawCollider.SetActive(false);
-        yield return new WaitForSeconds(_dashCd - _actionDelay);
+        yield return new WaitForSeconds((_dashCd * _dashCDMultiplier) - _actionDelay);
         isAttacking = false;
     }
     
     private void HeavyAttack()
     {
-        if ((_heavyAttackTimer <= _heavyAttackCd) || isDashing || !isHeavyAttacking || isAttacking || !_controller.isGrounded) return;
+        if ((_heavyAttackTimer <= (_heavyAttackCd * _heavyAttackCDMultiplier)) || isDashing || !isHeavyAttacking || isAttacking || !_controller.isGrounded) return;
         
         
         _heavyAttackTimer = 0;
@@ -255,7 +287,7 @@ public class CrabMovement2 : MonoBehaviour
     
     private void Dash()
     {
-        if ((_dashTimer <= _dashCd) || !isDashing || isHeavyAttacking || isAttacking || (horizontalInput == 0 && verticalInput == 0)) return;
+        if ((_dashTimer <= (_dashCd * _dashCDMultiplier)) || !isDashing || isHeavyAttacking || isAttacking || (horizontalInput == 0 && verticalInput == 0)) return;
         
         _dashTimer = 0;
         
@@ -289,9 +321,9 @@ public class CrabMovement2 : MonoBehaviour
     
     private void NormalAttackUI()
     {
-        if (!isAttacking && _attackTimer <= _attackCd)
+        if (!isAttacking && _attackTimer <= (_attackCd * _attackCDMultiplier))
         {
-            _normalAttackImage.fillAmount -= Time.deltaTime /  _attackCd ;
+            _normalAttackImage.fillAmount -= Time.deltaTime /  (_attackCd * _attackCDMultiplier) ;
         }
         
         if (_normalAttackImage.fillAmount <= 0.01f)
@@ -303,9 +335,9 @@ public class CrabMovement2 : MonoBehaviour
 
     private void HeavyAttackUI()
     {
-        if (_heavyAttackTimer <= _heavyAttackCd && !isHeavyAttacking)
+        if (_heavyAttackTimer <= (_heavyAttackCd * _heavyAttackCDMultiplier) && !isHeavyAttacking)
         {
-            _heavyAttackImage.fillAmount -= Time.deltaTime /  _heavyAttackCd;
+            _heavyAttackImage.fillAmount -= Time.deltaTime /  (_heavyAttackCd * _heavyAttackCDMultiplier);
         }
         
         if (_heavyAttackImage.fillAmount <= 0.01f)
@@ -317,9 +349,9 @@ public class CrabMovement2 : MonoBehaviour
     private void DashUI()
     {
 
-        if (_dashTimer <= _dashCd && !isDashing)
+        if (_dashTimer <= (_dashCd * _dashCDMultiplier) && !isDashing)
         {
-            _dashImage.fillAmount -= Time.deltaTime / _dashCd;
+            _dashImage.fillAmount -= Time.deltaTime / (_dashCd * _dashCDMultiplier);
         }
         
         if (_dashImage.fillAmount <= 0.01f)

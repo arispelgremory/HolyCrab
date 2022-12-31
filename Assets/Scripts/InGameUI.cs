@@ -18,7 +18,7 @@ public class InGameUI : MonoBehaviour
     
     private float maxSliderValue;
 
-    private bool isFeverTime;
+    public bool isFeverTime = false;
     public GameObject feverTimeParticleSystem;
 
     // Instance for other classes to access
@@ -31,8 +31,6 @@ public class InGameUI : MonoBehaviour
         // Changing crab amount for other classes to access
         Instance.crabAmount = 10;
         
-        // Setting the max value of the slider
-        Instance.isFeverTime = false;
         slider.value = 0;
         maxSliderValue = PlayerManager.maxSliderValue;
         
@@ -57,14 +55,14 @@ public class InGameUI : MonoBehaviour
         
         if((slider.value * 100) >= maxSliderValue && !isFeverTime)
         {
-            isFeverTime = true;
+            Instance.isFeverTime = true;
             // Trigger FeverTime
             feverTimeParticleSystem.SetActive(true);
         }
         
         if (((slider.value * 100) <= 0 && isFeverTime))
         {
-            isFeverTime = false;
+            Instance.isFeverTime = false;
             // Stop FeverTime
             feverTimeParticleSystem.SetActive(false);
         }
@@ -73,7 +71,6 @@ public class InGameUI : MonoBehaviour
     
     public void SetSliderValue(float value)
     {
-        Debug.Log("XP added:" + value);
         slider.value += (value / PlayerManager.maxSliderValue) * PlayerManager.valueCountMultiplier;
     }
     
