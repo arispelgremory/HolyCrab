@@ -84,6 +84,11 @@ public class CrabMovement2 : MonoBehaviour
         _attackTimer = _attackCd;
         _heavyAttackTimer = _heavyAttackCd;
         _dashTimer = _dashCd;
+        
+        // Prevent the UI fill from being filled at the start
+        _normalAttackImage.fillAmount = 0;
+        _heavyAttackImage.fillAmount = 0;
+        _dashImage.fillAmount = 0;
     }
 
     // Update is called once per frame
@@ -177,7 +182,7 @@ public class CrabMovement2 : MonoBehaviour
     
     private void Attack()
     {
-        if ((_attackTimer < _attackCd) || isDashing || isHeavyAttacking || !isAttacking || !_controller.isGrounded) return;
+        if ((_attackTimer <= _attackCd) || isDashing || isHeavyAttacking || !isAttacking || !_controller.isGrounded) return;
         
         _attackTimer = 0;
         
@@ -199,7 +204,7 @@ public class CrabMovement2 : MonoBehaviour
     
     private void HeavyAttack()
     {
-        if ((_heavyAttackTimer < _heavyAttackCd) || isDashing || !isHeavyAttacking || isAttacking || !_controller.isGrounded) return;
+        if ((_heavyAttackTimer <= _heavyAttackCd) || isDashing || !isHeavyAttacking || isAttacking || !_controller.isGrounded) return;
         
         
         _heavyAttackTimer = 0;
@@ -222,7 +227,7 @@ public class CrabMovement2 : MonoBehaviour
     
     private void Dash()
     {
-        if ((_dashTimer < _dashCd) || !isDashing || isHeavyAttacking || isAttacking || (horizontalInput == 0 && verticalInput == 0)) return;
+        if ((_dashTimer <= _dashCd) || !isDashing || isHeavyAttacking || isAttacking || (horizontalInput == 0 && verticalInput == 0)) return;
         
         _dashTimer = 0;
         
