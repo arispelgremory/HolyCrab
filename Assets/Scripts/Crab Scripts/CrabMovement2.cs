@@ -11,7 +11,7 @@ using UnityEngine;
 public class CrabMovement2 : MonoBehaviour
 {
     // Game UI stuffs
-    protected InGameUI gameUI;
+    private InGameUI gameUI;
     
     private CharacterController _controller;
     private Vector3 _moveDirection;

@@ -21,47 +21,10 @@ public class PauseMenuFunction : MonoBehaviour
     void Update()
     {
         // If either win or lose, then return
-        if (gameUI.IsWin() || gameUI.IsGameOver()) return;
+        if (gameUI.NotAllowRenderOthers()) return;
         
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(GameIsPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
-        }
+        
     }
 
-    public void Resume()
-    {
-        pauseMenuUI.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Time.timeScale = 1f;
-        GameIsPaused = false;
-    }
-
-    void Pause()
-    {
-        pauseMenuUI.SetActive(true);
-        Cursor.lockState = CursorLockMode.Confined;
-        Time.timeScale = 0f;
-        GameIsPaused = true;
-    }
-
-    public void LoadMenu()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenuScene");
-        Debug.Log("Loading Menu...");
-    }
-
-    public void QuitGame()
-    {
-        Debug.Log("Quit Game!");
-        Application.Quit();
-    }
+    
 }

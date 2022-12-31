@@ -36,7 +36,7 @@ public class ThirdPersonMovement : MonoBehaviour
     void Update()
     {
         // If either win or lose, then return
-        if (gameUI.IsWin() || gameUI.IsGameOver()) return;
+        if (gameUI.NotAllowRenderOthers()) return;
         
         xAxis += (Input.GetAxisRaw("Mouse X") * mouseSense);
         yAxis -= (Input.GetAxisRaw("Mouse Y") * mouseSense);

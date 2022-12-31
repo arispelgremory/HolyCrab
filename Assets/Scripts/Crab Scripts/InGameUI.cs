@@ -35,7 +35,13 @@ public class InGameUI : MonoBehaviour
     
     [Header("Level Up Canvas")]
     [SerializeField] public GameObject levelUpCanvas;
+    private bool _isLevelUp = false;
 
+    [Header("Pause Canvas")]
+    public bool GameIsPaused = false;
+    public GameObject pauseMenuUI;
+    
+    
     // Instance for other classes to access
     public static InGameUI Instance;
     
@@ -55,6 +61,18 @@ public class InGameUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(GameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+        
         crabAmountText.text = "x " + Instance.crabAmount.ToString();
     }
     
@@ -63,29 +81,27 @@ public class InGameUI : MonoBehaviour
         UpdateFeverTime();
     }
 
+    public bool NotAllowRenderOthers()
+    {
+        return _isWin || _isGameOver || _isLevelUp;
+    }
+
     public void HasLost()
     {
         this._isGameOver = true;
         this.gameOverCanvas.SetActive(true);
     }
     
-    public bool IsGameOver()
-    {
-        return this._isGameOver;
-    }
 
     public void HasWin()
     {
         this._isWin = true;
+        // TODO: Add win canvas
     }
-    
-    public bool IsWin()
-    {
-        return this._isWin;
-    }
-    
+
     public void LevelUp()
     {
+        this._isLevelUp = true;
         this.levelUpCanvas.SetActive(true);
     }
 
@@ -126,4 +142,34 @@ public class InGameUI : MonoBehaviour
             Instance = this;
         }
     }
+    
+    public void Resume()
+    {
+        pauseMenuUI.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+    }
+
+    void Pause()
+    {
+        pauseMenuUI.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+
+    public void LoadMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenuScene");
+        Debug.Log("Loading Menu...");
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quit Game!");
+        Application.Quit();
+    }
+    
 }
