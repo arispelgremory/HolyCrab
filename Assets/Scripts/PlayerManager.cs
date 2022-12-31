@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Fever Time Settings")]
     public static readonly float maxSliderValue = 100.0f;
-    public static readonly float timeToMaxInSeconds = 10.0f;
-   
-    
+    public static float valueCountMultiplier = 1.0f;
+    public static readonly float feverTimeDuration = 20.0f;
+    public static float feverTimeDurationCountMultiplier = 1.0f;
 }

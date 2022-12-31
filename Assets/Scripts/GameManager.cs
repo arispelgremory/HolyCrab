@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
+//  Convert scene index into enum for easily update in the future
+public enum SceneIndexes
+{
+    MANAGER = 0,
+    TITLE_SCREEN = 1,
+    GAME = 2
+
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;

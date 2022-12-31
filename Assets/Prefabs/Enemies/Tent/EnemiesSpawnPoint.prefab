@@ -49,14 +49,6 @@ MonoBehaviour:
     enemy: {fileID: 5223059569928548949, guid: e799e9f8fbe695b49af1e1c00a277833, type: 3}
     count: 8
     rate: 4
-  - name: Web Catcher
-    enemy: {fileID: 7736397597986961569, guid: f152cc9fa6c466f4ca4c178dfdefec55, type: 3}
-    count: 4
-    rate: 1
-  - name: Elite Catcher
-    enemy: {fileID: 1311728050819496875, guid: cf62fe13f67fc3a4bbdb971b9d85a03e, type: 3}
-    count: 2
-    rate: 1
   timeBetweenWaves: 5
   waveCountdown: 0
   state: 2

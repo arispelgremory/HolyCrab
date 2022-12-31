@@ -10,21 +10,7 @@ public class UIManager : MonoBehaviour
     public AudioClip beep;
     private bool isQuit = false;
 
-    public GameObject fadeToBlackPanel;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void PlayButtonSound()
+    public void PlayButtonSound()
     {
         AudioSource audio = GetComponent<AudioSource>();
         audio.clip = beep;
@@ -42,23 +28,6 @@ public class UIManager : MonoBehaviour
         {
             SceneManager.LoadScene(levelToLoad);
         }
-    }
-
-    public void PlayButtonClicked()
-    {
-        Debug.Log("Play!");
-        levelToLoad = "Level1";
-        PlayButtonSound();
-        // fadeToBlackPanel.GetComponent<Animator>().SetTrigger("FadeToBlack");
-        StartCoroutine(Wait());
-    }
-
-    public void OptionButtonClicked()
-    {
-        Debug.Log("Option");
-        levelToLoad = "OptionMenuScene";
-        PlayButtonSound();
-        StartCoroutine(Wait());
     }
 
     public void QuitButtonClicked()

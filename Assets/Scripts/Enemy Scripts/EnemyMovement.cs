@@ -4,43 +4,53 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+
 public class EnemyMovement : MonoBehaviour
 {
     public NavMeshAgent agent;
 
-    private Transform target;
+    protected Transform target;
     public Transform enemyBase;
     public Transform alliedBase;
     public Transform player;
     
-    Vector3 destination;
+    protected Vector3 destination;
 
-    private bool hasCrab = false;
+    protected bool hasCrab = false;
 
-    private int hp = 1;
+    protected int hp = 1;
+    
+    [SerializeField] protected float _movementSpeed = 5;
     
     // Crab Amount
-    private InGameUI gameUI;
+    protected InGameUI gameUI;
     
     // Enemy Animation
-    private Animator anim;
+    protected Animator anim;
     // Enemy's rigidbody
-    private Rigidbody rb;
+    protected Rigidbody rb;
+    
+    // Enemy's XP
+    protected int xp;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        
         agent = GetComponent<NavMeshAgent>();
+        
         destination = agent.destination;
 
+        // Default enemy is 5%
+        xp = 5;
+
+        agent.speed = _movementSpeed;
         gameUI = InGameUI.Instance;
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         // If the enemy don't has a crab, go to the allied base
         if (!hasCrab && hp > 0)
@@ -75,22 +85,20 @@ public class EnemyMovement : MonoBehaviour
     }
     
     // Animate which direction to walk based on it's velocity
-    public void AnimateMovement()
+    protected void AnimateMovement()
     {
-        if (hp >= 1 && (agent.velocity.z > 0 || agent.velocity.x > 0))
-        {
-            anim.SetBool("IsWalk", true);
-        } else if (agent.velocity.z <= 0 && agent.velocity.x <= 0)
+        if ((agent.velocity.z == 0 && agent.velocity.x == 0) || hp < 1)
         {
             anim.SetBool("IsWalk", false);
+            return;
         }
+        anim.SetBool("IsWalk", true);
     }
     
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "ClawCollider")
         {
-            Debug.Log("Kena Hit");
             TakeDamage();
         }
         
@@ -146,7 +154,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    IEnumerator EnemyDead()
+    protected IEnumerator EnemyDead()
     {
         // If enemy has crab, will drop it
         if (hasCrab)
@@ -159,6 +167,10 @@ public class EnemyMovement : MonoBehaviour
         // cancel walk animation
         anim.SetBool("IsWalk", false);
         anim.SetBool("IsDefeat", true);
+        
+        // Add player's FeverTime XP
+        gameUI.SetSliderValue(xp);
+        
         // Wait for 0.5 second
         yield return new WaitForSeconds(2.5f);
         // Destroy the enemy if ran away from the player about 50 units

@@ -21,7 +21,7 @@ public class WinCondition : MonoBehaviour
         if(_gameUI.crabAmount <= minCrabAmount)
         {
             // You Lose!
-            Debug.Log("You Lose!");
+            _gameUI.HasLost();
         }
     }
 }
