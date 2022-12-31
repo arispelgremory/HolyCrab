@@ -26,6 +26,10 @@ public class WebCatcherMovement : EnemyMovement
         gameUI = InGameUI.Instance;
         enemyWeapon =  GameObject.FindWithTag("EnemyAttacker");
         enemyWeapon.SetActive(false);
+        
+        // Set player
+        player = GameObject.FindWithTag("Player").transform;
+        
     }
 
     // Update is called once per frame
@@ -42,7 +46,7 @@ public class WebCatcherMovement : EnemyMovement
         {
             agent.isStopped = true;
         }
-        
+
         // Update destination if the target moves one unit
         if (Vector3.Distance(destination, target.position) > _attackRange)
         {

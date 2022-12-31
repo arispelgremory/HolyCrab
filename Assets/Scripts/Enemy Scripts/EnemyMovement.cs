@@ -34,7 +34,7 @@ public class EnemyMovement : MonoBehaviour
     protected int xp;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -50,7 +50,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    protected void Update()
     {
         // If the enemy don't has a crab, go to the allied base
         if (!hasCrab && hp > 0)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine;
@@ -83,7 +84,9 @@ public class CrabMovement2 : MonoBehaviour
     [Header("Stun Settings")]
     [SerializeField] private float _stunTime;
     private bool _isStunned = false;
-    
+
+    private bool newlyFeverTime = true;
+
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -112,6 +115,9 @@ public class CrabMovement2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If either win or lose, then return
+        if (gameUI.IsWin() || gameUI.IsGameOver()) return;
+        
         CoolDownProperties();
         GetInput();
         FeverTimeBuffs();
@@ -148,6 +154,20 @@ public class CrabMovement2 : MonoBehaviour
             _attackCDMultiplier = 0.5f;
             _heavyAttackCDMultiplier = 0.5f;
             _moveSpeedMultipler = 2.0f;
+            if (newlyFeverTime)
+            {
+                // Reset UI fill
+                _normalAttackImage.fillAmount = 0;
+                _heavyAttackImage.fillAmount = 0;
+                _dashImage.fillAmount = 0;
+                
+                // Reset timers
+                _attackTimer = _attackCd;
+                _heavyAttackTimer = _heavyAttackCd;
+                _dashTimer = _dashCd;
+                
+                newlyFeverTime = false;
+            }
         }
         else
         {
@@ -156,6 +176,7 @@ public class CrabMovement2 : MonoBehaviour
             _attackCDMultiplier = 1.0f;
             _heavyAttackCDMultiplier = 1.0f;
             _moveSpeedMultipler = 1.0f;
+            newlyFeverTime = true;
         }
         
     }
@@ -371,6 +392,23 @@ public class CrabMovement2 : MonoBehaviour
             _animator.SetBool("IsStunned", true);
             StartCoroutine(Stun());
         }
+
+        if (other.gameObject.name == "OceanBorderWarningCollider")
+        {
+            gameUI._isWarning = true;
+            gameUI.warningPanel.SetActive(true);
+            StartCoroutine(Death());
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name == "OceanBorderWarningCollider")
+        {
+            gameUI._isWarning = false;
+            gameUI. warningText.text = gameUI.warningText.ToString();
+            gameUI.warningPanel.SetActive(false);
+        }
     }
 
     IEnumerator Stun()
@@ -381,6 +419,19 @@ public class CrabMovement2 : MonoBehaviour
         yield return new WaitForSeconds(_stunTime);
         _animator.SetBool("IsStunned", false);
         _isStunned = false;
+    }
+    
+    IEnumerator Death()
+    {
+        for (int i = gameUI.warningTime; i > 0; i--)
+        {
+            gameUI.warningText.text = i.ToString();
+            yield return new WaitForSeconds(1);
+            if(!gameUI._isWarning) break;
+        }
+        
+        // Dead
+        gameUI.HasLost();
     }
     
 }
