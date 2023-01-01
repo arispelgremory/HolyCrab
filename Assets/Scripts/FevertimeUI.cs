@@ -16,21 +16,27 @@ public class FevertimeUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeToMaxInSeconds = PlayerManager.timeToMaxInSeconds;
+        timeToMaxInSeconds = 0;
         maxSliderValue = PlayerManager.maxSliderValue;
-        timeToMaxFill = timeToMaxInSeconds / maxSliderValue;
+    }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
     
     void LateUpdate()
     {
         // Debug.Log(slider.value);
-        if(slider.value < maxSliderValue)
-        {
-            slider.value += timeToMaxFill * Time.deltaTime;
-        }
-        else
+        
+        // {
+        //     slider.value += timeToMaxFill * Time.deltaTime;
+        // }
+        if(slider.value > maxSliderValue)
         {
             slider.value = maxSliderValue / maxSliderValue;
         }
     }
+    
 }

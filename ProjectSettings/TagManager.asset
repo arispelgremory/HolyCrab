@@ -12,10 +12,13 @@ TagManager:
   - LevelUpItem
   - Fire
   - Terrain
+  - Border
+  - EnemyAttacker
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
+  - Water
   - Water
   - UI
   - 

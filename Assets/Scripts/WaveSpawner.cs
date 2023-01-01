@@ -39,8 +39,8 @@ public class WaveSpawner : MonoBehaviour
             {
                 //  Begin a new round
                 Debug.Log("Wave Completed!");
+                WaveCompleted();
                 return;
-
             }
             else
             {
@@ -61,14 +61,31 @@ public class WaveSpawner : MonoBehaviour
             waveCountdown -= Time.deltaTime;
         }
     }
+    
+    void WaveCompleted()
+    {
+        Debug.Log("Wave Completed!");
+        state = SpawnState.Counting;
+        waveCountdown = timeBetweenWaves;
+
+        if(nextWave + 1 > waves.Length - 1)
+        {
+            nextWave = 0;
+            Debug.Log("ALL WAVES COMPLETE! Looping...");
+        }
+        else
+        {
+            nextWave++;
+        }
+    }
 
     bool EnemyIsAlive()
     {
         searchCountdown -= Time.deltaTime;
-        if(searchCountdown <= 0f)
+        if(searchCountdown <= 0.1f)
         {
             searchCountdown = 1f;
-            if(GameObject.FindGameObjectsWithTag("Enemy") == null)
+            if(GameObject.FindGameObjectsWithTag("Enemies").Length == 0)
             {
                 return false;
             }

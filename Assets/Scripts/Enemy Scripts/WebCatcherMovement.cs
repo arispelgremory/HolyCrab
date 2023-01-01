@@ -10,6 +10,8 @@ public class WebCatcherMovement : EnemyMovement
     
     [SerializeField] private float _attackRange;
     [SerializeField] private float _actionIntervals;
+    [SerializeField] private float _attackDuration;
+    private GameObject enemyWeapon;
 
     void Start()
     {
@@ -17,8 +19,17 @@ public class WebCatcherMovement : EnemyMovement
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         
+        // Default enemy is 5%
+        xp = 10;
+        
         destination = agent.destination;
         gameUI = InGameUI.Instance;
+        enemyWeapon =  GameObject.FindWithTag("EnemyAttacker");
+        enemyWeapon.SetActive(false);
+        
+        // Set player
+        player = GameObject.FindWithTag("Player").transform;
+        
     }
 
     // Update is called once per frame
@@ -31,7 +42,11 @@ public class WebCatcherMovement : EnemyMovement
             target = player;
             agent.SetDestination(player.position);
         }
-        
+        else
+        {
+            agent.isStopped = true;
+        }
+
         // Update destination if the target moves one unit
         if (Vector3.Distance(destination, target.position) > _attackRange)
         {
@@ -42,6 +57,7 @@ public class WebCatcherMovement : EnemyMovement
         transform.LookAt(target);
         AnimateMovement();
         
+        
         // If player is in range, stop then attack
         if (Vector3.Distance(transform.position, player.position) <= _attackRange && !_isAttacking)
         {
@@ -50,7 +66,6 @@ public class WebCatcherMovement : EnemyMovement
             agent.isStopped = true;
             StartCoroutine(CatcherAttack());
         }
-
         
     }
 
@@ -58,27 +73,37 @@ public class WebCatcherMovement : EnemyMovement
     {
         // Move Animation from parent class
         base.AnimateMovement();
+        
     }
 
     IEnumerator CatcherAttack()
     {
-        float animateInteraval = 0.2f;
+        float animateInteraval = 0.5f;
         
         _isAttacking = true;
         // Attack animation
         anim.SetBool("IsWalk", false);
         anim.SetTrigger("IsAttack");
 
+        
         yield return new WaitForSeconds(animateInteraval);
-        // TODO: Attack Physics
         
-        
-        
+        enemyWeapon.SetActive(true);
+        yield return new WaitForSeconds(_attackDuration);
+        enemyWeapon.SetActive(false);
+
         // Stun for a while if enemy animated attack
         yield return new WaitForSeconds(_actionIntervals);
         _isAttacking = false;
         agent.isStopped = false;
-        agent.speed = 3.5f;
+        agent.speed = _movementSpeed;
+    }
+
+    protected void EnemyDead()
+    {
+        // Disable the weapon's collider before defeat
+        enemyWeapon.SetActive(false);
+        base.EnemyDead();
     }
 
 }
