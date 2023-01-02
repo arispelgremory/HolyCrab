@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7523393834822533462}
   - component: {fileID: 7523393834822533463}
   m_Layer: 5
-  m_Name: WarningTextUI (1)
+  m_Name: Coun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 7523393835643298464}
   - component: {fileID: 7523393835643298465}
   m_Layer: 5
-  m_Name: WarningTextUI
+  m_Name: Coun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

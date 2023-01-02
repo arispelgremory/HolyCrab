@@ -12,12 +12,20 @@ public class WinCondition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         _gameUI = InGameUI.Instance;
+        _gameUI.requirementCount = minCrabAmount;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(_gameUI.crabAmount >= minCrabAmount && _gameUI.timeCount <= 0)
+        {
+            //  You Win!
+            _gameUI.HasWin();
+        }
+
         if(_gameUI.crabAmount <= minCrabAmount)
         {
             // You Lose!

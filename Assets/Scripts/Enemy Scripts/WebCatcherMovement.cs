@@ -35,6 +35,14 @@ public class WebCatcherMovement : EnemyMovement
     // Update is called once per frame
     void Update()
     {
+        // If either win or lose, then return
+        if (gameUI.NotAllowRenderOthers())
+        {
+            target = null;
+            agent.speed = 0;
+            anim.SetBool("isWalking", false);
+            return;
+        }    
         
         // This enemy will chase down player
         if (hp > 0)

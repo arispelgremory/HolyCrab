@@ -111,13 +111,18 @@ public class CrabMovement2 : MonoBehaviour
         _normalAttackImage.fillAmount = 0;
         _heavyAttackImage.fillAmount = 0;
         _dashImage.fillAmount = 0;
+        
+        // Cheat mode
+        PlayerManager.feverTimeDurationCountMultiplier = 100.0f;
+        gameUI.SetSliderValue(1);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         // If either win or lose, then return
-        // if (gameUI.IsWin() || gameUI.IsGameOver()) return;   //TODO: Game condition here
+        if (gameUI.NotAllowRenderOthers()) return;   
         
         CoolDownProperties();
         GetInput();
@@ -205,6 +210,28 @@ public class CrabMovement2 : MonoBehaviour
             isDashing = Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer > (_dashCd * _dashCDMultiplier);
         }
 
+        //  Attack & Heavy Attack Sound
+        if(isAttacking)
+        {
+            SoundManager.Instance.PlaySFX("Attack");
+        }
+        else if(isHeavyAttacking)
+        {
+            SoundManager.Instance.PlaySFX("HeavyAttack");
+        }
+
+        //  Dash Sound
+        if(isDashing)
+        {
+            SoundManager.Instance.PlaySFX("Dash");
+        }
+
+        //  Jump Sound
+        if(jumpInput)
+        {
+            SoundManager.Instance.PlaySFX("Jump");
+        }
+
     }
 
     private void AnimatePlayerMovement()
@@ -213,6 +240,7 @@ public class CrabMovement2 : MonoBehaviour
         if (verticalInput != 0 || horizontalInput != 0)
         {
             _animator.SetBool(IsForward, true);
+            SoundManager.Instance.PlaySFX("Moving");    //  Movement Sound
         }
         else
         {
@@ -348,7 +376,7 @@ public class CrabMovement2 : MonoBehaviour
             _normalAttackImage.fillAmount -= Time.deltaTime /  (_attackCd * _attackCDMultiplier) ;
         }
         
-        if (_normalAttackImage.fillAmount <= 0.01f)
+        if (_attackTimer >= (_attackCd * _attackCDMultiplier))
         {
             _normalAttackImage.fillAmount = 0;
         }
@@ -362,7 +390,7 @@ public class CrabMovement2 : MonoBehaviour
             _heavyAttackImage.fillAmount -= Time.deltaTime /  (_heavyAttackCd * _heavyAttackCDMultiplier);
         }
         
-        if (_heavyAttackImage.fillAmount <= 0.01f)
+        if (_heavyAttackTimer >= (_heavyAttackCd * _heavyAttackCDMultiplier))
         {
             _heavyAttackImage.fillAmount = 0;
         }
@@ -376,7 +404,7 @@ public class CrabMovement2 : MonoBehaviour
             _dashImage.fillAmount -= Time.deltaTime / (_dashCd * _dashCDMultiplier);
         }
         
-        if (_dashImage.fillAmount <= 0.01f)
+        if (_dashTimer >= (_dashCd * _dashCDMultiplier))
         {
             _dashImage.fillAmount = 0;
         }

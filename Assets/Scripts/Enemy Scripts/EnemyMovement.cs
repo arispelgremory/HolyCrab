@@ -52,6 +52,14 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
+        // If either win or lose, then return
+        if (gameUI.NotAllowRenderOthers())
+        {
+            target = null;
+            agent.speed = 0;
+            return;
+        }    
+        
         // If the enemy don't has a crab, go to the allied base
         if (!hasCrab && hp > 0)
         {
@@ -75,11 +83,11 @@ public class EnemyMovement : MonoBehaviour
                 agent.destination = destination;
             } 
         
-            // If the target's unit is smaller than 1, slow down
-            if (Vector3.Distance(destination, target.position) < 1.0f && hp > 0)
-            {
-                agent.speed = 5.0f;
-            }
+            // // If the target's unit is smaller than 1, slow down
+            // if (Vector3.Distance(destination, target.position) < 1.0f && hp > 0)
+            // {
+            //     agent.speed = 0.5f;
+            // }
         }
         
     }
@@ -97,12 +105,12 @@ public class EnemyMovement : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "ClawCollider")
+        if (other.gameObject.name == "ClawCollider" && hp > 0)
         {
             TakeDamage();
         }
         
-        if (other.gameObject.name == "Crab Base" && hp > 0)
+        if (other.gameObject.name == "Crab Base" && hp > 0 && !hasCrab)
         {
             agent.isStopped = true;
             if (agent.velocity != Vector3.zero)
@@ -113,9 +121,13 @@ public class EnemyMovement : MonoBehaviour
             anim.SetBool("IsWalk", false);
             StartCoroutine(EnemyTakingCrab());
         }
-        
-        if (other.gameObject.name == "Enemy Tent" && hp > 0)
+    }
+
+    private void OnCollisionEnter(Collision other) 
+    {
+        if (other.gameObject.tag == "EnemyTent" && hp > 0)
         {
+            Debug.Log("Destroy India");
             agent.isStopped = true;
             if (agent.velocity != Vector3.zero)
             {
@@ -126,7 +138,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    IEnumerator EnemyTakingCrab()
+    protected IEnumerator EnemyTakingCrab()
     {
         hasCrab = true;
         yield return new WaitForSeconds(2);
@@ -141,7 +153,7 @@ public class EnemyMovement : MonoBehaviour
         yield return new WaitForSeconds(2);
         // Will destroy this AI after back to tent
         Destroy(gameObject);
-        
+        SoundManager.Instance.PlaySFX("EasterEgg");
     }
 
     public void TakeDamage()
@@ -150,33 +162,32 @@ public class EnemyMovement : MonoBehaviour
         // Enemy's hp is 0, will run away from the player and if the enemy has a crab, will drop it
         if (hp < 1)
         {
+            // Pause to calculate the direction to run
+            agent.speed = 0;
             StartCoroutine(EnemyDead());
+            // cancel walk animation
+            anim.SetBool("IsWalk", false);
+            anim.SetBool("IsDefeat", true);
+        
+            // Add player's FeverTime XP
+            gameUI.SetSliderValue(xp);
         }
     }
 
     protected IEnumerator EnemyDead()
-    {
+    {   
+        
+        // Wait for 0.5 second
+        yield return new WaitForSeconds(2.5f);
+
+        gameUI.enemyDeafeated++;
+        
+        Destroy(gameObject);
         // If enemy has crab, will drop it
         if (hasCrab)
         {
             gameUI.crabAmount++;
         }
-        
-        // Pause to calculate the direction to run
-        agent.speed = 0;
-        // cancel walk animation
-        anim.SetBool("IsWalk", false);
-        anim.SetBool("IsDefeat", true);
-        
-        // Add player's FeverTime XP
-        gameUI.SetSliderValue(xp);
-        
-        // Wait for 0.5 second
-        yield return new WaitForSeconds(2.5f);
-        // Destroy the enemy if ran away from the player about 50 units
-        Destroy(gameObject);
-        
-
     }
     
 }

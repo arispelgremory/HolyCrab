@@ -18615,7 +18615,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9047477924172243440}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9207ee96ce6bd8e40b87d68769cd7432, type: 3}
   m_Name: 
@@ -18721,7 +18721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 5989989719297519494}
-  enemyBase: {fileID: 1127237029444110110, guid: cb455c07a18bb2440b3ca1f23fc61dce,
+  enemyBase: {fileID: 5083970569588049126, guid: 1fa4122a001ca9244a608a8c10ed009b,
     type: 3}
   alliedBase: {fileID: 5160899568112374232, guid: 0c10d39a742010547b5802cd3ab323aa,
     type: 3}

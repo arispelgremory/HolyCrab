@@ -19,4 +19,6 @@ public class EliteCatcherMovement : EnemyMovement
     {
         base.Update();
     }
+    
+    
 }

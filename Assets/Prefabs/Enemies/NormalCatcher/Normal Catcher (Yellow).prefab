@@ -9388,7 +9388,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0.03
+  m_BaseOffset: -0.01
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1081514224397032984
@@ -9398,7 +9398,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4737594527909299813}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9207ee96ce6bd8e40b87d68769cd7432, type: 3}
   m_Name: 
@@ -9504,12 +9504,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 210666301643412116}
-  enemyBase: {fileID: 1127237029444110110, guid: cb455c07a18bb2440b3ca1f23fc61dce,
+  enemyBase: {fileID: 4242363872171817762, guid: b8e097a46d7cf0740bd9cde4a720f482,
     type: 3}
-  alliedBase: {fileID: 2187207977286403088, guid: 88eb2100508cd5a48b321c17d10fe600,
+  alliedBase: {fileID: 5160899568112374232, guid: 0c10d39a742010547b5802cd3ab323aa,
     type: 3}
-  player: {fileID: 3366789016703149500, guid: 042cde8b0a390c049a4b17332184fa57, type: 3}
-  _movementSpeed: 2
+  player: {fileID: 9125634505456572398, guid: c269738e6bfe0834abfcdedeb0c0497b, type: 3}
+  _movementSpeed: 5
 --- !u!1 &4776994811713911990
 GameObject:
   m_ObjectHideFlags: 0

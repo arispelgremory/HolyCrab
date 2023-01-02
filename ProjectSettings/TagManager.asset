@@ -15,6 +15,11 @@ TagManager:
   - pickuppoint
   - Fire
   - waypoint
+  - PlayerAttacker
+  - EnemyAttacker
+  - HouseDeco
+  - Border
+  - EnemyTent
   layers:
   - Default
   - TransparentFX
